@@ -2,7 +2,16 @@ var request=null;
 var queryString;   //will hold the POSTed data
 var hostname=window.location.host;
 var demoCode = new Array();
-demoCode[0]="";
+var clicked = false;
+var x; 
+var y;
+var element;
+var Xoffset;
+var Yoffset;
+reg = new RegExp("([0-9]*)px", "i");
+
+
+demoCode[0]=null;
 demoCode[1]="[X,Y]=meshgrid(-1:.1:1,-1:.1:1);\nZ=X.^2-Y.^2;\nxtitle('z=x2-y ^2');\nmesh(X,Y,Z);\nf=gcf();\nf.color_map = jetcolormap(16);";
 demoCode[2]="zgrid();";
 demoCode[3]="x=-2:0.075:2;\ny=x;\nz=eval3d(milk_drop,x,y);\nplot3d(x,y,z,25,25,'X@Y@Z',[12,2,4]);";
@@ -130,35 +139,39 @@ demoCode[122]="t=(0:.05:1)';\nst=sin(2*%pi*t);\nxsetech([0,0,1,0.5]);\nplot2d2(\
 demoCode[123]="h = 1;\nX = [0,1;1,1;0,0];\nY = [0,0;0,1;1,1];\nZ = [0,0;0,0;h,h];\ncolors = [1,1;1,1;64,64];\nfh = scf(0);\nfh.color_map = jetcolormap(64);\ndrawlater();\nsubplot(1,2,1);\nplot3d(X,Y,list(Z,colors));\nsubplot(1,2,2);\np = [3,2,1];\nplot3d(X(p,:),Y(p,:),list(Z(p,:),colors(p,:)));\ndrawnow();";
 demoCode[124]="getf('slice3d.sci');\ngetf('trisplit.sci');\ngetf('setcmap.sci');\ngetf('oplot3d.sci');\nnx=21; ny=25; nz=30;\ns=hypermat([nx,ny,nz]);\nx=linspace(-4.5,4.5,nx)'*ones(1,ny);\ny=ones(nx,1)*linspace(-4.5,4.5,ny);\nz=linspace(-4.5,4.5,nz);\nfor i=1:nz; s(:,:,i)=x.^2 + y.^2 + z(i)^2; end\n[xx,yy,zz,c]=slice3d(x(:,1)',y(1,:),z,s,-[1 10 16],-[4 8 12],15);\n[xx,yy,zz,c]=trisplit(xx,yy,zz,c);\nsetcmap(16)\nxbasc();oplot3d(list(xx,yy,zz,c,1),32,35,45,'x@y@z',[-1 6 4]);";
 demoCode[125]="getf('rebin.sci');\ngetf('interp2.sci');\nxbasc();\nrebin();\nxn=1:.1:8;\nyn=-1:.1:3;\nan=rebin(xn,yn,1:3,1:3,5*rand(3,3));\nplot3d1(xn,yn,an);"; 
+
 function putDemo(){
-      //alert("put");
       var codeIndex=document.sciForm.demo.options[document.sciForm.demo.selectedIndex].value;
       document.sciForm.scicode.value=demoCode[codeIndex];
-      document.sciForm.graphicsmode.checked=true;
+      if (codeIndex!=0)
+      	document.sciForm.graphicsmode.checked=true;
+      else
+	document.sciForm.graphicsmode.checked=false;
 }
+
 function clearForm(){
 	document.sciForm.sciresult.value="";
 	document.sciForm.scicode.value="";
-        //document.getElementById("gconsole").src="scilabp.png";
-	document.getElementById("gwindow").style.visibility="hidden";
         request=null;
         queryString=""; 
+	document.getElementById("gwindow").style.visibility="hidden";
+        document.sciForm.graphicsmode.checked=false;
 }
+
 function executeCode(){
-      //alert("Came here");
     document.getElementById('gconsole').onload=hideMsg;
     document.getElementById('message').innerHTML='<center>Processing...<br><img src="loading.gif"><center>';
     document.getElementById('message').style.visibility = 'visible'; 
     setQueryString();
-    var url="http://"+hostname+"/cgi-bin/scilabserver.cgi";
+    var url="http://"+hostname+"/cgi-bin/scilab.cgi";
     httpRequest("POST",url,true);
 }
+
 //event handler for XMLHttpRequest
 function handleResponse(){
 	if(request.readyState == 4){
 		if(request.status == 200){
 			window.status="Done.";
-//alert(request.responseText);
 results = eval('(' + request.responseText + ')'); 
 result="Done.";
 result=results.output;
@@ -172,20 +185,8 @@ if (error){
         return;
 }
 if (image){
-        //document.getElementById("gconsole").src="scilabp.png";
 	 document.getElementById("gconsole").src=results.imagefile;
 	 window.status="Rendering Graphics...";
-	 //document.getElementById("gwindow").style.visibility = 'visible';
-	 //document.getElementById("gconsole").src=results.imagefile;
-         //document.getElementById("gcontent").style.width = 596;
-         //document.getElementById("gcontent").style.height = 397;
-         //document.getElementById("gwindow").style.width = 616;
-         //document.getElementById("gwindow").style.height = 440;
-         //document.getElementById("gwindow").style.left= "30%";
-         //document.getElementById("gwindow").style.top= "5%";
-         //document.getElementById("gmaxbutton").src = "min.gif";
-         //document.getElementById("gmaxbutton").title = "Minimize";
-	 //document.getElementById("gwindow").style.visibility = 'visible';
 }
 else{
 	document.sciForm.sciresult.value=result;
@@ -195,18 +196,16 @@ else{
 	            alert("A problem occurred with communicating between the XMLHttpRequest object and the server program:"+request.statusText+" Code: "+request.status);
 document.getElementById('message').style.visibility = 'hidden'; //Hide the progressbar gif
 	      	}
-	}//end outer if
+	}
 }
 
 
 /* Initialize a Request object that is already constructed */
-function initReq(reqType,url,bool){
-    /* Specify the function that will handle the HTTP response */
-    request.onreadystatechange=handleResponse;
+
+function initReq(reqType,url,bool){	
+    request.onreadystatechange=handleResponse;               /* Specify the function that will handle the HTTP response */
     request.open(reqType,url,bool);
-    request.setRequestHeader("Content-Type","application/x-www-form-urlencoded; charset=UTF-8");
-    /* Only works in Mozilla-based browsers */
-    //request.overrideMimeType("text/XML");
+    request.setRequestHeader("Content-Type","application/x-www-form-urlencoded; charset=UTF-8");   /* Only works in Mozilla-based browsers */
     request.send(queryString);
 }
 
@@ -215,9 +214,10 @@ function initReq(reqType,url,bool){
   reqType: The HTTP request type such as GET or POST.
   url: The URL of the server program.
   asynch: Whether to send the request asynchronously or not. */
-function httpRequest(reqType,url,asynch){
-    //Mozilla-based browsers
-    if(window.XMLHttpRequest){
+
+function httpRequest(reqType,url,asynch)
+{
+    if(window.XMLHttpRequest){					//Mozilla-based browsers
         request = new XMLHttpRequest();
     } else if (window.ActiveXObject){
         request=new ActiveXObject("Msxml2.XMLHTTP");
@@ -225,14 +225,13 @@ function httpRequest(reqType,url,asynch){
             request=new ActiveXObject("Microsoft.XMLHTTP");
         }
      }
-    //the request could still be null if neither ActiveXObject
-    //initializations succeeded
-    if(request){
-       initReq(reqType,url,asynch);
+    if(request){							//the request could still be null if neither ActiveXObject
+       initReq(reqType,url,asynch);					//initializations succeeded
+    
     }  else {
-        alert("Your browser does not permit the use of all "+
-        "of this application's features!");}
+        alert("Your browser does not permit the use of all of this application's features!");}
 }
+
 function setQueryString(){
     queryString="";
     code=encodeURIComponent(document.sciForm.scicode.value);
@@ -240,25 +239,26 @@ function setQueryString(){
     queryString = "code="+code+"&graphicsmode="+graphicsmode;
     //alert(queryString);
 }
+
 function maxminimize(){
-w= document.getElementById("gcontent").style.width;
-if (w == "596px"){
+	w= document.getElementById("gcontent").style.width;
+	if (w == "596px"){
         document.getElementById("gcontent").style.width = 0;
       	document.getElementById("gcontent").style.height = 0;
         document.getElementById("gwindow").style.width = 250;
         document.getElementById("gwindow").style.height = 20;
-	document.getElementById("gwindow").style.left= "20%";
-	document.getElementById("gwindow").style.top= "90%";
+	document.getElementById("gwindow").style.left= "100px";
+	document.getElementById("gwindow").style.top= "500px";
         document.getElementById("gmaxbutton").src = "restore.gif";
 	document.getElementById("gmaxbutton").title = "Maximize";
-}
-else{
+	}
+	else{
         document.getElementById("gcontent").style.width = 596;
       	document.getElementById("gcontent").style.height = 397;
         document.getElementById("gwindow").style.width = 616;
       	document.getElementById("gwindow").style.height = 440;
-	document.getElementById("gwindow").style.left= "30%";
-	document.getElementById("gwindow").style.top= "5%";
+	document.getElementById("gwindow").style.left= "400px";
+	document.getElementById("gwindow").style.top= "80px";
 	document.getElementById("gmaxbutton").src = "min.gif";
 	document.getElementById("gmaxbutton").title = "Minimize";
 }
@@ -269,8 +269,7 @@ function closeit(){
 	document.getElementById("gwindow").style.visibility="hidden";
 }
 function showHelp(){
-	dhtmlwindow.open("helpbox", "iframe", "docindex.html", "Scilab On-line Help", "width=650px,height=350px,resize=1,scrolling=1,center=1", "recal");
-	//helpwin.show();return false;
+	helpwin.show();return false
      
 }
 function hideMsg() {
@@ -280,8 +279,8 @@ function hideMsg() {
       		document.getElementById("gcontent").style.height = 397;
         	document.getElementById("gwindow").style.width = 616;
       		document.getElementById("gwindow").style.height = 440;
-		document.getElementById("gwindow").style.left= "30%";
-		document.getElementById("gwindow").style.top= "5%";
+		document.getElementById("gwindow").style.left= "400px";
+		document.getElementById("gwindow").style.top= "80px";
 		document.getElementById("gmaxbutton").src = "min.gif";
 		document.getElementById("gwindow").style.visibility = 'visible';
 		document.getElementById('message').style.visibility = 'hidden';
@@ -290,6 +289,7 @@ function hideMsg() {
 		setTimeout("hideMsg()", 250);
 	}
 }
+
 function printImg(){
 	src = document.getElementById("gconsole").src;
 	//document.getElementById("iFrame1").src=src;
@@ -297,7 +297,6 @@ function printImg(){
 	link = "about:blank";
 	var pw = window.open(link, "_new");
 	pw.document.open();
-	pw.document.write(src);
 	pw.document.write(makepage(src));
 	pw.document.close();
 	//alert("Printing...");
@@ -306,7 +305,6 @@ function makepage(src){
   // We break the closing script tag in half to prevent
   // the HTML parser from seeing it as a part of
   // the *main* page.
-document.getElementById('message').innerHTML=src;
 
   return "<html>\n" +
     "<head>\n" +
@@ -327,22 +325,97 @@ document.getElementById('message').innerHTML=src;
     "</html>\n";
 }
 
+function saveImg(){
+	src = document.getElementById("gconsole").src; 	
+	link = "about:blank";
+	var pw = window.open(link, "_new");
+	pw.document.open();
+	pw.document.write(save_makepage(src));
+	pw.document.close();
+	
+}
+function save_makepage(src){
+  // We break the closing script tag in half to prevent
+  // the HTML parser from seeing it as a part of
+  // the *main* page.
+
+  return "<html>\n" +
+    "<head>\n" +
+    "<title>W3 Scilab - NRCFOSS,India</title>\n" +
+    "</head>\n" +
+    "<body>\n" +
+    "<img src='" + src + "'/>\n" +
+    "</body>\n" +
+    "</html>\n";
+}
+
 function submit_file() {
+	    
             var fileInput = document.getElementById ("input_file");
 	    var output_text=document.getElementById("scicode");
 
             if ('files' in fileInput) {
                 if (fileInput.files.length > 0) {
                     var file = fileInput.files[0];
-                    var data = file.getAsText ('utf-8');
-            	    output_text.innerHTML = data;
+                    var data = file.getAsText('utf-8');
+            	    //output_text.innerHTML = data;
+		    document.sciForm.scicode.value=data;
+			
                 }
             }
             else {
                 alert ("Your browser doesn't support the files property!");
             }
+	    document.sciForm.graphicsmode.checked=false;
 	    
             
+}
+
+function clickser(event, ele_name) {
+clicked = true;
+element = ele_name;
+	if(event.offsetX || event.offsetY) {
+		clickX=event.offsetX;
+		clickY=event.offsetY;
+	}
+	else {
+		
+		clickX=event.pageX;
+		clickY=event.pageY;
+	}
+
+itemX = document.getElementById(element).style.left;
+itemY = document.getElementById(element).style.top;
+arX = reg.exec(itemX);
+arY = reg.exec(itemY);
+Xoffset = clickX - arX[1];
+Yoffset = clickY - arY[1];
+document.getElementById(element).style.cursor = 'move';
+
+}
+
+function movers(event) {
+	if(clicked == true) {
+		if(event.offsetX || event.offsetY) {
+			x=event.offsetX - Xoffset;
+			y=event.offsetY - Yoffset;
+		}
+		else {
+			x=event.pageX - Xoffset;
+			y=event.pageY -Yoffset;
+		}
+		document.getElementById(element).style.top = y +'px';
+		document.getElementById(element).style.left = x +'px';
+	
+	}	
+}
+
+function unclicks() {
+
+clicked = false;
+document.getElementById(element).style.top = y +'px';
+document.getElementById(element).style.left = x +'px';
+document.getElementById(element).style.cursor = 'auto';
 }
 
 
