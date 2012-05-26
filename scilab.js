@@ -8,6 +8,8 @@ var y;
 var element;
 var Xoffset;
 var Yoffset;
+var filename="";
+var flag_save=0;
 reg = new RegExp("([0-9]*)px", "i");
 
 
@@ -159,6 +161,7 @@ function clearForm(){
 }
 
 function executeCode(){
+    flag_save=0;
     document.getElementById('gconsole').onload=hideMsg;
     document.getElementById('message').innerHTML='<center>Processing...<br><img src="loading.gif"><center>';
     document.getElementById('message').style.visibility = 'visible'; 
@@ -236,7 +239,7 @@ function setQueryString(){
     queryString="";
     code=encodeURIComponent(document.sciForm.scicode.value);
     graphicsmode=document.sciForm.graphicsmode.checked ?document.sciForm.graphicsmode.value: 0; 
-    queryString = "code="+code+"&graphicsmode="+graphicsmode;
+    queryString = "code="+code+"&graphicsmode="+graphicsmode+"&flag_save="+flag_save+"&filename="+filename;
     //alert(queryString);
 }
 
@@ -326,27 +329,11 @@ function makepage(src){
 }
 
 function saveImg(){
-	src = document.getElementById("gconsole").src; 	
-	link = "about:blank";
-	var pw = window.open(link, "_new");
-	pw.document.open();
-	pw.document.write(save_makepage(src));
-	pw.document.close();
-	
-}
-function save_makepage(src){
-  // We break the closing script tag in half to prevent
-  // the HTML parser from seeing it as a part of
-  // the *main* page.
-
-  return "<html>\n" +
-    "<head>\n" +
-    "<title>W3 Scilab - NRCFOSS,India</title>\n" +
-    "</head>\n" +
-    "<body>\n" +
-    "<img src='" + src + "'/>\n" +
-    "</body>\n" +
-    "</html>\n";
+	filename=prompt("Enter the name of the image to be saved: ","new_image");	
+	flag_save=1;
+	setQueryString();
+        var url="http://"+hostname+"/cgi-bin/scilab.cgi";
+        httpRequest("POST",url,true);
 }
 
 function submit_file() {
