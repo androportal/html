@@ -180,7 +180,7 @@ error=results.error;
 image=results.image;
 if (error){
         document.getElementById('message').style.visibility = 'hidden';
-	alert("Error : "+error);
+//	alert("Error : "+error);
         document.sciForm.sciresult.value=result+"\nSyntax Error : "+error;
         return;
 }
