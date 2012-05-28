@@ -5,7 +5,7 @@ var demoCode = new Array();
 var filename1="";
 var flag_save1=0;
 demoCode[0]="";
-demoCode[1]='#include <iostream>\nusing namespace std;\nint main()\n{cout << "Hello World!" << endl;   cout << "Welcome to C++ Programming" << endl;}';
+demoCode[1]='#include <iostream>\nusing namespace std;\nint main()\n{cout << "Hello World!" << endl;\n cout << "Welcome to C++ Programming"\n << endl;}';
 function putDemo(){
       //alert("put");
       var codeIndex=document.sciForm.demo.options[document.sciForm.demo.selectedIndex].value;

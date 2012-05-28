@@ -5,7 +5,7 @@ var demoCode = new Array();
 var filename1="";
 var flag_save1=0;
 demoCode[0]="";
-demoCode[1]='#include <stdio.h>\n\nvoid main(){\nprintf("\\nHello Srikant !");}\n';
+demoCode[1]='#include <stdio.h>\n\nint main(){\nprintf("\\nHello World!");}\n';
 demoCode[2]='#include <stdio.h>\n\nvoid main(){\nint i;\nfor(i=0;i<10;i++)\nprintf("%d \\n",i);}'; 
 function putDemo(){
 	
