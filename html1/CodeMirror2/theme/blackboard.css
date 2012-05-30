@@ -1,6 +1,6 @@
 /* Port of TextMate's Blackboard theme */
 
-.cm-s-blackboard { background: #0C1021; color: #F8F8F8; }
+.cm-s-blackboard { font-size: 15px;background: #0C1021; color: #F8F8F8; }
 .cm-s-blackboard .CodeMirror-selected { background: #253B76 !important; }
 .cm-s-blackboard .CodeMirror-gutter { background: #0C1021; border-right: 0; }
 .cm-s-blackboard .CodeMirror-gutter-text { color: #888; }

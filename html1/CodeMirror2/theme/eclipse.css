@@ -1,4 +1,5 @@
-.cm-s-eclipse span.cm-meta {color: #FF1717;}
+.cm-s-eclipse { font-size: 15px;}
+.cm-s-eclipse span.cm-meta {font-size: 15px;color: #FF1717;}
 .cm-s-eclipse span.cm-keyword { line-height: 1em; font-weight: bold; color: #7F0055; }
 .cm-s-eclipse span.cm-atom {color: #219;}
 .cm-s-eclipse span.cm-number {color: #164;}

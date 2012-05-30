@@ -1,4 +1,4 @@
-.cm-s-erlang-dark { background: #002240; color: white; }
+.cm-s-erlang-dark { font-size:15px;background: #002240; color: white; }
 .cm-s-erlang-dark div.CodeMirror-selected { background: #b36539 !important; }
 .cm-s-erlang-dark .CodeMirror-gutter { background: #002240; border-right: 1px solid #aaa; }
 .cm-s-erlang-dark .CodeMirror-gutter-text { color: #d0d0d0; }
