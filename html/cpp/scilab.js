@@ -2,8 +2,19 @@ var request=null;
 var queryString;   //will hold the POSTed data
 var hostname=window.location.host;
 var demoCode = new Array();
+var filename1="";
+var flag_save1=0;
 demoCode[0]="";
-demoCode[1]='#include <iostream>\nusing namespace std;\nint main()\n{cout << "Hello World!" << endl;   cout << "Welcome to C++ Programming" << endl;}';
+demoCode[1]='#include <iostream>\nusing namespace std;\nint main()\n{cout << "Hello World!" << endl;\n cout << "Welcome to C++ Programming"\n << endl;}';
+demoCode[2]='#include <iostream>\nusing namespace std;\nint main()\n{\n int a=5, b=8, total ;\n  total = a + b ;\ncout <<"The sum is"<< total << endl;\n  return 0;\n}';
+
+
+demoCode[3]='#include <iostream>\n#include <cstdlib>\n#include <ctime>\nusing namespace std;\nint RollDie();\nint main()\n{srandom(time(NULL));\n   int  outcome = RollDie();\n   cout << "\\n"<<outcome << endl;\n   outcome = RollDie();\n  cout <<outcome << endl;\nreturn 0;\n}\nint RollDie() \n{  int randomNumber, die;\n  randomNumber = random();\n   die = 1 + randomNumber % 6;\n   return die;}';
+
+
+
+demoCode[4]='#include <iostream>\n#define VIEW \'$\'\nusing namespace std;\nint main(void)\n{\nint i, j;\ncout<<"Money pyramid!\\n"<<endl;\nfor(i=1; i<=15; i++)\n{for(j=1; j<=15-i; j++)\ncout<<" ";\nfor(j=1; j<=2*i-1; j++)\ncout<<VIEW;\ncout<<"\\n";}\nreturn 0;\n}';
+
 function putDemo(){
       //alert("put");
       var codeIndex=document.sciForm.demo.options[document.sciForm.demo.selectedIndex].value;
@@ -11,7 +22,7 @@ function putDemo(){
       myCodeMirror.setValue(demoCode[codeIndex]);
       document.sciForm.graphicsmode.checked=false;
 }
-function clearForm(){
+function clearForm(){cpp
 	document.sciForm.sciresult.value="";
 	//document.sciForm.scicode.value="";
 	myCodeMirror.setValue("");
@@ -22,6 +33,7 @@ function clearForm(){
 }
 function executeCode(){
       //alert("Came here");
+	flag_save1=0;
     document.getElementById('gconsole').onload=hideMsg;
     document.getElementById('message').innerHTML='<center>Processing...<br><img src="loading.gif"><center>';
     document.getElementById('message').style.visibility = 'visible'; 
@@ -115,7 +127,7 @@ function setQueryString(){
     queryString="";
     code=encodeURIComponent(myCodeMirror.getValue());
     graphicsmode=document.sciForm.graphicsmode.checked ?document.sciForm.graphicsmode.value: 0; 
-    queryString = "code="+code+"&graphicsmode="+graphicsmode;
+    queryString = "code="+code+"&graphicsmode="+graphicsmode+"&flag_save1="+flag_save1+"&filename1="+filename1;
 //    alert(queryString);
 }
 function maxminimize(){
@@ -200,6 +212,14 @@ function makepage(src){
     "<img src='" + src + "'/>\n" +
     "</body>\n" +
     "</html>\n";
+}
+
+function savecode(){
+	filename1=prompt("Enter the name of the code file to be saved: ","new_file");	
+	flag_save1=1;
+	setQueryString();
+        var url="http://"+hostname+"/cgi-bin/cpp.cgi";
+        httpRequest("POST",url,true);
 }
 
 function submit_file() {

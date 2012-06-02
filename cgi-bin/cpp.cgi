@@ -2,16 +2,16 @@
 #use strict;
 use CGI;
 use CGI::Carp 'fatalsToBrowser';
-use Data::UUID;
+#use Data::UUID;
 use JSON;
 my $request = new CGI;
-my $ug = Data::UUID->new;
-my $uuid=$ug->create_str();
-my $file=$ug->to_string($uuid);
+#my $ug = Data::UUID->new;
+#my $uuid=$ug->create_str();
+my $file='a';
 my $incode=$request->param('code');
 
-my $codefile="/var/www/html/cpp/tmp/$file.cpp";
-my $errorfile="/var/www/html/cpp/tmp/$file.err";
+my $codefile="/tmp/$file.cpp";
+my $errorfile="/tmp/$file.err";
 my $binary="bin";
 my $results;
 my $flag_save1=$request->param('flag_save1');

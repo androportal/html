@@ -10,6 +10,8 @@ var Xoffset;
 var Yoffset;
 var filename="";
 var flag_save=0;
+var filename1="";
+var flag_save1=0;
 reg = new RegExp("([0-9]*)px", "i");
 
 
@@ -164,6 +166,7 @@ function clearForm(){
 
 function executeCode(){
     flag_save=0;
+    flag_save1=0;
     document.getElementById('gconsole').onload=hideMsg;
     document.getElementById('message').innerHTML='<center>Processing...<br><img src="loading.gif"><center>';
     document.getElementById('message').style.visibility = 'visible'; 
@@ -241,29 +244,29 @@ function setQueryString(){
     queryString="";
     code=encodeURIComponent(myCodeMirror.getValue());
     graphicsmode=document.sciForm.graphicsmode.checked ?document.sciForm.graphicsmode.value: 0; 
-    queryString = "code="+code+"&graphicsmode="+graphicsmode+"&flag_save="+flag_save+"&filename="+filename;
+    queryString = "code="+code+"&graphicsmode="+graphicsmode+"&flag_save="+flag_save+"&filename="+filename+"&flag_save1="+flag_save1+"&filename1="+filename1;
     //alert(queryString);
 }
 
 function maxminimize(){
 	w= document.getElementById("gcontent").style.width;
-	if (w == "596px"){
+	if (w == "520px"){
         document.getElementById("gcontent").style.width = 0;
       	document.getElementById("gcontent").style.height = 0;
-        document.getElementById("gwindow").style.width = 250;
-        document.getElementById("gwindow").style.height = 20;
-	document.getElementById("gwindow").style.left= "100px";
-	document.getElementById("gwindow").style.top= "500px";
+        document.getElementById("gwindow").style.width = 1;
+        document.getElementById("gwindow").style.height = 1;
+	document.getElementById("gwindow").style.right= "170px";
+	document.getElementById("gwindow").style.top= "18px";
         document.getElementById("gmaxbutton").src = "restore.gif";
 	document.getElementById("gmaxbutton").title = "Maximize";
 	}
 	else{
-        document.getElementById("gcontent").style.width = 596;
-      	document.getElementById("gcontent").style.height = 397;
-        document.getElementById("gwindow").style.width = 616;
-      	document.getElementById("gwindow").style.height = 440;
-	document.getElementById("gwindow").style.left= "400px";
-	document.getElementById("gwindow").style.top= "80px";
+        document.getElementById("gcontent").style.width = 520;
+      	document.getElementById("gcontent").style.height = 326;
+        document.getElementById("gwindow").style.width = 520;
+      	document.getElementById("gwindow").style.height = 326;
+	document.getElementById("gwindow").style.right= "170px";
+	document.getElementById("gwindow").style.top= "18px";
 	document.getElementById("gmaxbutton").src = "min.gif";
 	document.getElementById("gmaxbutton").title = "Minimize";
 }
@@ -280,12 +283,12 @@ function showHelp(){
 function hideMsg() {
        var image=document.getElementById("gconsole");
        if(image.complete){
- 		document.getElementById("gcontent").style.width = 596;
-      		document.getElementById("gcontent").style.height = 397;
-        	document.getElementById("gwindow").style.width = 616;
-      		document.getElementById("gwindow").style.height = 440;
-		document.getElementById("gwindow").style.left= "400px";
-		document.getElementById("gwindow").style.top= "80px";
+ 		document.getElementById("gcontent").style.width = 520;
+      		document.getElementById("gcontent").style.height = 326;
+        	document.getElementById("gwindow").style.width = 520;
+      		document.getElementById("gwindow").style.height = 326;
+		document.getElementById("gwindow").style.right= "170px";
+		document.getElementById("gwindow").style.top= "18px";
 		document.getElementById("gmaxbutton").src = "min.gif";
 		document.getElementById("gwindow").style.visibility = 'visible';
 		document.getElementById('message').style.visibility = 'hidden';
@@ -333,6 +336,14 @@ function makepage(src){
 function saveImg(){
 	filename=prompt("Enter the name of the image to be saved: ","new_image");	
 	flag_save=1;
+	setQueryString();
+        var url="http://"+hostname+"/cgi-bin/scilab.cgi";
+        httpRequest("POST",url,true);
+}
+
+function savecode(){
+	filename1=prompt("Enter the name of the code file to be saved: ","new_file");	
+	flag_save1=1;
 	setQueryString();
         var url="http://"+hostname+"/cgi-bin/scilab.cgi";
         httpRequest("POST",url,true);

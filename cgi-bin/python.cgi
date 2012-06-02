@@ -2,12 +2,12 @@
 #This can be used with pylab module too, for graphical output
 use CGI;
 use CGI::Carp 'fatalsToBrowser';
-use Data::UUID;
+#use Data::UUID;
 use JSON;
 my $request = new CGI;
-my $ug = Data::UUID->new;
-my $uuid=$ug->create_str();
-my $file=$ug->to_string($uuid);
+#my $ug = Data::UUID->new;
+#my $uuid=$ug->create_str();
+my $file='a';
 my $incode=$request->param('code');
 my $flag_save1=$request->param('flag_save1');
 my $filename1=$request->param('filename1');
@@ -23,8 +23,8 @@ if ($incode =~ m/unix_w|unix_g|unix_s|unix_x|unix|host|dir/){
 	exit;
 }
 my $graphicsmode=$request->param('graphicsmode');
-my $codefile="/var/www/html/python/tmp/$file.py";
-my $errorfile="/var/www/html/python/tmp/$file.err";
+my $codefile="/tmp/$file.py";
+my $errorfile="/tmp/$file.err";
 my $imagepath="/var/www/html/python/tmp/$file.png";
 my $results;
 if ($graphicsmode){
