@@ -1,3 +1,6 @@
-1) Change the name html1 to html and replace with /var/www/html.
+If you have chroot'ed Linux in your tablet/phone then :
+
+1) Replace html with /var/www/html.
 2) Replace the current /usr/lib/cgi-bin with cgi-bin.
-3) Point your browser to http://localhost/html.
+3) Point your browser to http://localhost/html or use the APK from 
+   the repo apk_files.
