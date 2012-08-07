@@ -49,13 +49,13 @@ listFile();
 			if (error)
 			{ 
 				/*lekha's addtion for reloading shellinabox webview*/
-//				android.reloadConsole();
+				android.reloadConsole();
 				/*lekha's addition ends*/
         			return;
 			}
 			document.getElementById('execute').src="e1.png";
 			/*lekha's addtion for reloading shellinabox webview*/
-//			android.reloadConsole();
+			android.reloadConsole();
 			/*lekha's addition ends*/
 		}
 		else
