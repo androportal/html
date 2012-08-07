@@ -1,0 +1,132 @@
+<HTML>
+<HEAD>
+	<TITLE>Chapter 10: Programming Exercises</TITLE>
+</HEAD>
+<BODY>
+<A NAME="chap10PE.html">
+<H1>
+Chapter 10: Programming Exercises
+</H1>
+</A>
+<PRE>
+ 1. Write a class called <B>CAccount</B> which contains two
+    private data elements, an integer <B>accountNumber</B> 
+    and a floating point <B>accountBalance</B>, and three 
+    member functions:
+
+         1. A constructor that allows the user to set 
+            initial values for <B>accountNumber</B> and 
+            <B>accountBalance</B> and a default constructor 
+            that prompts for the input of the values for 
+            the above data members.
+
+         2. A function called <B>inputTransaction</B>, 
+            which reads a  character value for 
+            <B>transactionType</B> ('D' for deposit
+            and 'W' for withdrawal), and a floating point 
+            value for <B>transactionAmount</B>, which 
+            updates <B>accountBalance</B>.
+
+         3. A function called <B>printBalance</B>, which 
+            prints on the screen the <B>accountNumber</B> 
+            and <B>accountBalance</B>.
+        
+ 2. Design a class <B>CCourse</B> that will hold the 
+    courses that are offered at a local college.  The class 
+    should at least have the following data members:
+    
+         year = the calendar year the class is being taught 
+         term = the term the class is being taught in 
+                (FALL, WINTER, SPRING, SUMMER)
+         courseNumber = the course prefix and number 
+                        (edp171, chm201, ... )
+         sectionNumber = the three character value that  
+                         identifies what specific section 
+                         of the course is being taught
+         building = what building the course is being 
+                    taught in        
+         room = what room the course is being taught in
+         beginTime = what time the course starts (the 
+                     beginning time can vary from one 
+                     meeting to the next, 
+                     i.e., The class meets at 1:00PM on 
+                     Monday and Wednesday, but at 1:30PM on 
+                     Tuesday and Thursday.)                      
+         endTime = what time the course starts (the ending 
+                   time can vary from one meeting to the 
+                   next, i.e., The class ends at 3:00PM on 
+                   Monday and Wednesday, but at 3:30PM on 
+                   Tuesday and Thursday.)
+         meetingDays = what days of the week the course 
+                       meets, usually more than once a 
+                       week.
+
+    Develop all methods needed by the class.  You do not 
+    have to  write a program to use the class.
+
+ 3. Design a class <B>CDocument</B> that will hold lines 
+    that compose the contents of a document.  A document 
+    can be text that comes from disk file or a list of 
+    lines that are temporarily being held in memory.  The 
+    class should have a 'has-a' relationship with a 
+    <B>CDblList</B> class which is a double linked list 
+    class.  The <B>CDocument</B> class should at least have 
+    the following capabilities:
+
+         1. A constructor that is passed the name of a disk 
+            file.  The file will be opened, the contents 
+            read and each line from the file will be stored 
+            into an element of  the linked list.
+
+         2. A default constructor that initializes the list 
+            as  being empty.
+
+         3. A copy constructor that initializes the list 
+            from another instance of the <B>CDocument</B>.
+
+         4. A group of browse functions for the list, such
+            as:
+
+              - insert a new item in the list
+              - delete an item from the list
+              - move to the beginning of the list
+              - move to the end of the list
+              - move to the next item in the list
+              - move to the previous item in the list
+              - are we at the beginning of the list
+              - are we at the end of the list
+              - return the value from the current item in 
+                the list
+
+         5. A method that returns a reference to the 
+            current instance of the <B>CDocument</B> class.
+
+    Develop all methods needed by the class.  You do not 
+    have to write a program to use the class.        
+
+ 4. Design a class <B>CView</B> that will allow for the 
+    display of  lines of text.  The class will paginate any 
+    output, pausing at the end of each screen full shown 
+    and allowing the input of the following commands:
+
+              - N or n for move to next page
+              - P or p for move to previous page
+              - Q or q to quit the display and return to 
+                the menu
+
+    The <B>CView</B> class should at least have the 
+    following capabilities:
+
+         1. A constructor that is passed the address of a 
+            <B>CDocument</B> class.  The <B>CDocument</B> 
+            class manages the document that will be viewed.
+
+
+         2. A default constructor that initializes the 
+            display device to be blank.
+
+    Develop all methods needed by the class.  You do not 
+    have to write a program to use the class.        
+</PRE>
+</BODY>
+</HTML>

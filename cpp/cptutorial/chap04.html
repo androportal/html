@@ -1,0 +1,1143 @@
+<HTML>
+<HEAD>
+   <META HTTP-EQUIV="Content-Type" CONTENT="text/html; charset=iso-8859-1">
+   <TITLE>C/C++ Programming</TITLE>
+</HEAD>
+<BODY>
+
+<A NAME="chap04.html">
+<H1>
+Chapter 4 Operators
+</H1>
+</A>
+
+<P>C and C++ are languages that are rich in operators. The languages provide
+arithmetic, relational, logical, bitwise, conditional and many others.
+<BR>
+<H3>
+4.1 Order of Precedence of Operators
+</H3>
+
+<P>Both <B>C</B> and <B>C++</B> have a great many operators. In fact one
+of the criticisms of the <B>C</B> language is that it has too many operators
+which makes the language difficult to read. The operators fall into several
+categories: arithmetic, logical, relational, bitwise, assignment and miscellaneous.
+Within a category the operators can be classified into types: unary, binary,
+or ternary. The type indicates the number of operands required with the
+operator. For instance, a unary operator only requires a single operand,
+whereas a binary type operator requires two operands, and of course ternary
+type operators require three operands. The operators have an order of precedence
+among themselves. This order of precedence dictates in what order the operators
+are evaluated when several operators are together in a statement or expression.
+Also, with each operator is an associativity factor that tells in what
+order the operands associated with the operator are to be evaluated. The
+following is a chart of the operators in the <B>C</B> and <B>C++</B> language.
+<BR>
+<H4>
+Table 4-1
+</H4>
+
+<TABLE BORDER>
+<CAPTION Align=top>Precedence and Associativity of Operators</CAPTION>
+<TR>
+<TH>Operators</TH><TH>Description</TH>
+<TH>Associativity</TH>
+</TR>
+<TR>
+<TD>()</TD><TD>function call</TD><TD>left to right</TD>
+</TR>
+<TR>
+<TD>[]</TD><TD>array element</TD>     <TD></TD>
+</TR>
+<TR>
+<TD>.</TD><TD>structure/union member</TD>     <TD></TD>
+</TR>
+<TR>
+<TD>-></TD><TD>structure/union member using pointer</TD>     <TD></TD>
+</TR>
+<TR>
+<TD>!</TD><TD>logical not</TD><TD>right to left</TD>
+</TR>
+<TR>
+<TD>~</TD><TD>one's complement</TD>     <TD></TD>
+</TR>
+<TR>
+<TD>-</TD><TD>unary minus</TD>     <TD></TD>
+</TR>
+<TR>
+<TD>++ --</TD><TD>increment/decrement</TD>     <TD></TD>
+</TR>
+<TR>
+<TD>&</TD><TD>address of</TD>     <TD></TD>
+</TR>
+<TR>
+<TD>*</TD><TD>indirection</TD>     <TD></TD>
+</TR>
+<TR>
+<TD>(type)</TD><TD>type cast</TD>     <TD></TD>
+</TR>
+<TR>
+<TD>sizeof</TD><TD>size in bytes</TD>     <TD></TD>
+</TR>
+<TR>
+<TD>*</TD><TD>multiply</TD><TD>left to right</TD>
+</TR>
+<TR>
+<TD>/</TD><TD>divide</TD><TD>     </TD>
+</TR>
+<TR>
+<TD>%</TD><TD>modulus</TD><TD>     </TD>
+</TR>
+<TR>
+<TD>+</TD><TD>add</TD><TD>left to right</TD>
+</TR>
+<TR>
+<TD>-</TD><TD>subtract<TD><TD>     </TD>
+</TR>
+<TR>
+<TD><<</TD><TD>left shift</TD><TD>left to right</TD>
+</TR>
+<TR>
+<TD>>></TD><TD>right shift</TD><TD>     </TD>
+</TR>
+<TR>
+<TD><</TD><TD>less than</TD><TD>left to right</TD>
+</TR>
+<TR>
+<TD><=</TD><TD>less than or equal</TD><TD>     </TD>
+</TR>
+<TR>
+<TD>></TD><TD>greater than</TD><TD>     </TD>
+</TR>
+<TR>
+<TD>>=</TD><TD>greater than or equal</TD><TD>     </TD>
+</TR>
+<TR>
+<TD>==</TD><TD>equal to</TD><TD>left to right</TD>
+</TR>
+<TR>
+<TD>!=</TD><TD>not equal to</TD><TD>     </TD>
+</TR>
+<TR>
+<TD>&</TD><TD>bitwise AND</TD><TD>left to right</TD>
+</TR>
+<TR>
+<TD>^</TD><TD>bitwise XOR</TD><TD>left to right</TD>
+</TR>
+<TR>
+<TD>|</TD><TD>bitwise OR</TD><TD>left to right</TD>
+</TR>
+<TR>
+<TD>&&</TD><TD>logical AND</TD><TD>left to right</TD>
+</TR>
+<TR>
+<TD>||</TD><TD>logical OR</TD><TD>left to right</TD>
+</TR>
+<TR>
+<TD>?:</TD><TD>conditional</TD><TD>right to left</TD>
+</TR>
+<TR>
+<TD>=</TD><TD>assignment</TD><TD>right to left</TD>
+</TR>
+<TR>
+<TD>*=</TD><TD>multiply and assign</TD><TD>     </TD>
+</TR>
+<TR>
+<TD>/=</TD><TD>divide and assign</TD><TD>     </TD>
+</TR>
+<TR>
+<TD>%=</TD><TD>modulo and assign</TD><TD>     </TD>
+</TR>
+<TR>
+<TD>+=</TD><TD>add and assign</TD><TD>     </TD>
+/TR>
+<TR>
+<TD>-=</TD><TD>subtract and assign</TD><TD>     </TD>
+</TR>
+<TR>
+<TD><<=</TD><TD>left shift and assign</TD><TD>     </TD>
+</TR>
+<TR>
+<TD>>>=</TD><TD>right shift and assign</TD><TD>     </TD>
+</TR>
+<TR>
+<TD>&=</TD><TD>bitwise AND and assign</TD><TD>     </TD>
+</TR>
+<TR>
+<TD>^=</TD><TD>bitwise XOR and assign</TD><TD>     </TD>
+</TR>
+<TR>
+<TD>|=</TD><TD>bitwise OR and assign</TD><TD>     </TD>
+</TR>
+<TR>
+<TD>,</TD><TD>comma</TD><TD>left to right</TD>
+</TR>
+</TABLE>
+
+<H3>
+4.2 Operators: Arithmetic
+</H3>
+
+<H4>
+Fig 4-1
+</H4>
+
+<TABLE BORDER> 
+<TR>
+<TH>Symbol</TH><TH>Operator</TH><TH>Example</TH>
+</TR>
+<TD>*</TD><TD>multiplication</TD><TD>a*b</TD>
+</TR>
+<TR>
+<TD>/</TD><TD>division</TD><TD>a/b</TD>
+</TR>
+<TR>
+<TD>%</TD><TD>modulo</TD><TD>a%b</TD>
+</TR>
+<TR>
+<TD>+</TD><TD>addition</TD><TD>a+b</TD>
+</TR>
+<TR>
+<TD>-</TD><TD>subtraction</TD><TD>a-b</TD>
+</TR>
+</TABLE>
+<BR>
+<P>All arithmetic operators evaluate from left to right. When
+several arithmetic operators, in fact operators of any type, appear within an expression several passes of the expression may be necessary to completely evaluate the expression.
+<BR>
+<P>Problems can occur if you mix <B>unsigned</B> variables with variables of other data types. Due to differences in computer architecture, unsigned variables do not always convert to the larger data type. This can result in loss of accuracy, and even incorrect results. There are other times when you might want to fully control the type conversions instead of letting C and C++ make
+its best bet.
+<BR>
+<P>You can override C and C++'s default conversions by specifying your own temporary type change. This process is called <B>typecasting</B>. When you typecast, you temporarily change a variable's data type from its declared data type to a new one. The two formats of the
+typecast are:
+<BR>
+<PRE> 
+   (data type) expression /* ANSI C method */
+
+and
+
+   data type(expression) // C++ method</PRE>
+
+</PRE>
+<BR>
+<P>where <B>data type</B> can be any valid C and C++ data type, such as
+<B>int</B> or <B>float</B>, and the <B>expression</B> can be a variable,
+literal, or an expression that combines both. The following code temporarily
+typecast the integer variable <B>age</B> into a double floating-point variable,
+so that it can be multiplied by the double floating-point <B>factor</B>.
+Both formats of the typecast are illustrated.
+<PRE> 
+age_factor = (double)age * factor;
+</PRE>
+<BR>
+<P>The second way of typecasting puts the parentheses around the variable
+rather than the data type:
+<PRE> 
+age_factor = double(age) * factor;
+</PRE>
+<BR>
+<P>Instead of having C and C++ perform the conversion, you might want to
+typecast all mixed expression to ensure that they convert the way you want
+them to.
+<BR>
+<H3>
+4.4 sizeof
+</H3>
+<BR>
+<P>The <B>sizeof</B> operator returns the physical size, in bytes, of the
+data item for which it is applied. It can be used with any type of data
+item except bit fields. The general form is:
+<PRE> size_t sizeof( item );</PRE>
+<BR>
+<P>When <B>sizeof</B> is used on a character field the result returned
+is 1 (if a character is stored in one byte). When used on an integer the
+result returned is the size in bytes of that integer. When used on an array
+the result is the number of bytes in the array, not the number of characters
+which appear before a NULL. In the ANSI standard the <B>sizeof</B> operator
+returns a data type of <B>size_t</B> which is usually an <B>unsigned int</B>
+value.
+<PRE> int nums[10];
+<BR>
+ printf("There are %d types in the array and %d elements"
+ , sizeof( nums ), sizeof( nums ) / sizeof( int ) );</PRE>
+<BR>
+<H3>
+4.5 Relational and Logical
+</H3>
+<BR>
+<H4>
+Fig 4-2
+</H4>
+<BR>
+<TABLE BORDER> 
+<TR>
+<TH>Symbol</TH><TH>Operator</TH><TH>Example</TH>
+</TR>
+<TR>
+<TD><</TD><TD>less than</TD><TD>a < B</TD>
+</TR>
+<TR>
+<TD>></TD><TD>greater than</TD><TD>a > b</TD>
+</TR>
+<TR>
+<TD>>=</TD><TD>greater than or equal</TD><TD>a >= b</TD>
+</TR>
+<TR>
+<TD>==</TD><TD>equal to</TD><TD>a==b</TD>
+</TR>
+<TR>
+<TD>!=</TD><TD>not equal</TD><TD>a!=b</TD>
+</TR>
+</TABLE>
+<BR>
+
+<B>Logical:</B>
+<BR>
+<H4>
+Fig 4-3
+</H4>
+<TABLE BORDER>
+<TR>
+<TH>Sample</TH><TH>Operator</TH><TH>Example</TH>
+</TR>
+<TR>
+<TD>!</TD><TD>NOT</TD><TD>!(a < b)</TD<
+>/TR>
+<TR>
+<TD>&&</TD><TD>AND</TD><TD>a < b && c > d</TD>
+</TR>
+<TR>
+<TD>||</TD><TD>OR</TD><TD>a || d</TD>
+</TR>
+</TABLE>
+
+<P>Relational and logical operators evaluate to only a true (1) or false
+(0) value. Relational operators have a higher order of precedence that
+logical operators and therefore are evaluated first in any expression that
+includes both types of operators.
+<BR>
+<H3>
+4.6 The Conditional Operator
+</H3>
+<BR>
+<P>The conditional operator is C and C++'s only ternary operator. It
+works on three values as opposed to the binary operators you have seen
+that operate on only two valurs. The conditional operator is used to replace
+if-else logic in some situations. It is a two-symbol operator, <B>?:</B>, with
+the following format:
+<PRE>
+result = conditional_expression ? expression1 :expression2;
+</PRE>
+<BR>
+<P>The <B>conditional_expression</B> is any expression in C and C++ that results
+in a True (nonzero) or False (zero) answer. If the result of <B>conditional_expression
+</B>is true, <B>expression1</B> executes. Otherwise, if the result of <B>conditional_expression</B>
+is false, <B>expression2</B> executes. Only one of the expressions following the
+question mark ever executes. Only a single semicolon appears at the end
+of <B>expression2</B>. The internal expressions, such as <B>expression1</B>, do not have
+a semicolon. The resultant value generated by the expression that is executed
+is returned and can be captured into the result identifier.
+<BR>
+<P>If you require simple if-else logic, the conditional operator usually
+provides a more direct and succinct method, although you should always
+prefer readability over compact code.
+<BR>
+<P>To glimpse the conditional operator at work, consider the section of code that follows:
+<PRE>
+if( a > b )
+   ans = 10;
+else
+   ans = 25;
+</PRE>
+<BR>
+<P>You can easily rewrite this kind of <B>if-else</B> code by using a single conditional operator.
+<PRE>
+ans = a > b ? 10 : 25;
+</PRE>
+<BR>
+<H3>
+4.7 Increment and Decrement
+</H3>
+<BR>
+<H4>
+Fig 4-4
+</H4>
+<BR>
+<TABLE BORDER>
+<TR>
+<TH>Symbol</TH><TH>Operator</TH><TH>Example</TH>
+</TR>
+<TR>
+<TD>++</TD><TD>increment</TD><TD>a++ or ++a</TD>
+</TR>
+<TR>
+<TD>--</TD><TD>decrement</TD><TD>a-- or --a</TD>
+</TR>
+</TABLE>
+<BR>
+<P>The decrement and increment operators function the same whether the
+operator is pre (meaning before the operand) or post (meaning after the
+operand). When the operators are used in conjunction with a conditional
+test, such as in an if statement or a loop control conditional test, then
+the placement of the operator in relationship to the operand is taken into
+account as to when to decrement or increment the value of the operand.
+<BR>
+<H3>
+4.8 Assignment
+</H3>
+<BR>
+<H4>
+Fig 4-5
+</H4>
+<BR>
+<TABLE BORDER>
+<TR>
+<TH>Symbol</TH><TH>Operator</TH><TH>Example</TH>
+</TR>
+<TR>
+<TD>=</TD><TD>assignment</TD><TD>a = b</TD>
+</TR>
+<TR>
+<TD>+=</TD><TD>addition and assignment</TD><TD>a += b                                 same as a = a + b</TD>
+</TR>
+<TR>
+<TD>-=</TD><TD>subtraction and assignment</TD><TD>a -= b                                   same as a = a - b</TD>
+</TR>
+<TR>
+<TD>*=</TD><TD>multiplication and assignment</TD><TD>a *= b                                   same as a = a * b</TD>
+</TR>
+<TR>
+<TD>/=</TD><TD>division and assignment</TD><TD>a /= b                                   same as a = a / b</TD>
+</TR>
+<TR>
+<TD>%=</TD><TD>modulo and assignment</TD><TD>a %= b                                   same as a = a % b</TD>
+</TR>
+<TR>
+<TD>&=</TD><TD>bitwise AND assignment</TD><TD>a &= b                                   same as a = a & b</TD>
+</TR>
+<TR>
+<TD>|=</TD><TD>bitwise OR and assignment</TD><TD>a |= b                                   same as a = a | b</TD>
+</TR>
+<TR>
+<TD>^=</TD><TD>bitwise XOR and assignment</TD><TD>a ^= b                                   same as a = a ^ b</TD>
+</TR>
+<TR>
+<TD><<=</TD><TD>shift left and and assignment</TD><TD>a <<= 2                                   same as a = a << 2</TD>
+</TR>
+<TR>
+<TD>>>=</TD><TD>shift right and assignment</TD><TD>a >>= 4                                   same as a = a >> 4</TD>
+</TR>
+</TABLE>
+<BR>
+<P>The various assignment operators are intended as a shorthand method.
+Depending upon the machine architecture, the shorthand notation could be
+faster than the traditional method.
+<BR>
+<H3>
+4.9 Bitwise Operators
+</H3>
+<BR>
+<P>Each of the bitwise operators affects individual bits in a value.
+Some of these operators are binary, taking two bits and returning a third
+bit. Bitwise operators only work on values that reside in a word or less
+of storage. Bitwise operators cannot be used with floating point, double,
+or long values. The size of a word will vary from one machine architecture
+to another.
+<BR>
+<P>The order of precedence for the bitwise operators is as follows:
+<BR>
+<H4>
+Table 4-2
+</H4>
+<BR>
+<TABLE BORDER>
+<CAPTION Align=top>Bitwise Operators</CAPTION>
+<TR>
+<TH>Operator</TH><TH>Description</TH><TH>Associativity</TH>
+</TR>
+<TR>
+<TD>~</TD><TD>Ones complement</TD><TD>right to left</TD>
+</TR>
+<TR>
+<TD><<</TD><TD>Left shift</TD><TD>left to right</TD>
+</TR>
+<TR>
+<TD>>></TD><TD>Right shift</TD><TD>left to right</TD>
+</TR>
+<TR>
+<TD>&</TD><TD>Bitwise AND</TD><TD>left to right</TD>
+</TR>
+<TR>
+<TD>^</TD><TD>Bitwise XOR</TD><TD>left to right</TD>
+</TR>
+<TR>
+<TD>|</TD><TD>Bitwise OR</TD><TD>left to right</TD>
+</TR>
+</TABLE>
+<BR>
+<H3>
+4.10 Bitwise Complement: ~
+</H3>
+<BR>
+<P>This operator is a unary operator, that flips the value of each 
+bit.  The operator takes a bit and converts it to 0 if the bit 
+was 1 and to 1 if the bit was 0.  
+<BR>
+<H4>
+Table 4-3
+</H4>
+<BR>
+<TABLE BORDER>
+<CAPTION Align=top>Truth Table: Ones Complement (~)</CAPTION>
+<TR>
+<TH>value</TH><TH>~value</TH>
+</TR>
+<TD>0</TD><TD>1</TD>
+<TR>
+</TR>
+<TD>1</TD><TD>0</TD>
+</TR>
+</TABLE>
+<BR>
+<P>Assuming 16 bit integers and that <B>unsigned int Z</B> is <B>0xA</B>, the 
+expression <B>~Z</B> has the value <B>0xFFF5</B> as shown below:
+<BR>
+<H4>
+Table 4-4
+</H4>
+<BR>
+<TABLE BORDER>
+<CAPTION Align=top>Example</CAPTION>
+<TR>
+<TH>Expression</TH><TH>Binary Representation</TH><TH>Value</TH>
+</TR>
+<TR>
+<TD>Z</TD><TD>0000 0000 0000 1010</TD><TD>0xA</TD>
+</TR>
+<TR>
+<TD>~Z</TD><TD>1111 1111 1111 0101</TD><TD>0xFFF5</TD>
+</TR>
+</TABLE>
+<BR>
+<P>The bitwise complement operator should not be confused with the 
+arithmetic unary minus (-) or the logical negation (!).  For 
+example, if <B>Z</B> is defined to be an int and set equal to <B>0</B>, then <B>-Z</B> 
+results in <B>0</B> and <B>!Z</B> is <B>1</B>, but <B>~Z</B> yields <B>-1</B> on a 2's complement 
+machine. 
+<BR>
+<P>The bitwise complement operator is useful in writing portable 
+code as it avoids inclusion of machine-dependent information in 
+the program.  For example, the statement 
+<BR>
+<PRE>
+    Z &= ~0xFF;
+</PRE>
+sets the last 8 bits of <B>Z</B> to <B>0</B>, independent of word length.
+<BR>
+<H3>
+4.11 Bitwise Shift Operators
+</H3>
+<BR>
+<P>C provides two bitwise shift operators, bitwise left shift (<B><<</B>) 
+and bitwise right shift (<B>>></B>), for shifting bits left or right by 
+an integral number of positions in integral data.  Both of these 
+operators are binary, and the left operand is the integral data 
+whose bits are to be shifted, and the right operand, called the 
+shift count, specifies the number of positions by which bits need 
+shifting.  The shift count must be nonnegative and less than the 
+number of bits required to represent data of the type of the left 
+operand.
+<BR>
+<P>Automatic unary conversions are performed on both operands.  
+However, the type of the result is that of the promoted left 
+operand; the right operand does not promte the result.
+<BR>
+The result of applying these operators to signed operands is 
+implementation-dependent.  For portability, therefore, these 
+operators should only be used on unsigned operands.
+<BR>
+<P>These operators can also be used, like other binary operators, to 
+form compound assignment operators <B>>>=</B> and <B><<=</B>.
+<BR>
+<H3>
+4.11.1 Left Shift Operator: <<
+</H3>
+<BR>
+<P>The left shift operator shifts bits to the left, and has the 
+formation 
+<BR>
+<PRE>
+    intvalue << intvalue
+</PRE>
+<BR>
+<P>As bits are shifted toward high-order positions, <B>0</B> bits enter the 
+low-order positions.  Bits shifted out through the high-order 
+position are lost.  For example, given
+<BR>
+<PRE>
+    unsigned int Z = 5;
+
+and 16-bit integers, that is, 
+
+    Z is 00000000 00000101
+
+then 
+
+    Z << 1 is 00000000 00001010  or 10 decimal
+
+and 
+
+    Z << 15 is 10000000 00000000 or 32768 decimal
+</PRE>
+<BR>
+<H3>
+4.11.2 Right Shift Operator: >>
+</H3>
+
+<BR>
+<P>The right shift operator shifts bits to the right, and has the 
+formation
+<BR>
+<PRE>
+    intvalue >> intvalue
+</PRE>
+<BR>
+<P>As bits are shifted toward low-order position, <B>0</B> bits enter the 
+high-order positions, if the data is unsigned.  If the data is 
+signed and the sign bit is <B>0</B>, then <B>0</B> bits also enter the high-
+ordr positions.  However, if the sign bit is <B>1</B>, the bits entering 
+high-order positions are implementation-dependent.  On some 
+machines <B>1</B>s, and on others <B>0</B>s, are shifted in.  The former type 
+of operation is known as the arithmetic right shift, and the 
+latter type the logical right shift.  For example, given
+<BR>
+<PRE>
+    unsigned int Z = 40960;
+
+and 16-bit integers, that is 
+
+    Z is 10100000 00000000
+
+then 
+
+    Z >> 1 is 01010000 00000000 or 20480 decimal
+
+and 
+    Z >> 15 is 00000000 00000001 or 1 decimal
+</PRE>
+<BR>
+<P>In the second example, the <B>1</B> originally in the fourteenth bit 
+position has dropped off.  Another right shift will drop off the 
+<B>1</B> in the first bit position, and <B>Z</B> will become zero.
+<BR>
+<H3>
+4.12 Multiplication and Division thru Shifting Bits
+</H3>
+<BR>
+<P>The left shift of a value by one position has the effect of 
+multiplying the value by two, unless an overflow occurs due to a 
+<B>1</B> falling off from the high-order position.  Similarly, the right 
+shift of a value by one position has the effect of dividing the 
+value by two, provided the value is nonnegative.  Here are some 
+examples, assuming 16-bit integers:
+<BR>
+<H4>
+Table 4-5
+</H4>
+<BR>
+<TABLE BORDER>
+<CAPTION Align=top>Z as each statement executes</CAPTION>
+<TR>
+<TH>unsigned int Z</TH><TH>Binary Representation</TH><TH>Decimal Value</TH>
+</TR>
+<TR>
+<TD>Z=3</TD><TD>00000000 00000011</TD><TD>3</TD>
+</TR>
+<TR>
+<TD>Z << 1</TD><TD>00000000 00000110</TD><TD>6</TD>
+</TR>
+<TR>
+<TD>Z << 4</TD><TD>00000000 01100000</TD><TD>96</TD>
+</TR>
+<TR>
+<TD>Z << 9</TD><TD>11000000 00000000</TD><TD>49152</TD>
+</TR>
+<TR>
+<TD>Z << 1</TD><TD>10000000 00000000</TD><TD>32768</TD>
+</TR>
+<TR>
+<TD>Z >> 1</TD><TD>01000000 00000000</TD><TD>16384</TD>
+</TR>
+<TR>
+<TD>Z >> 9</TD><TD>00000000 00100000</TD><TD>32</TD>
+</TR>
+<TR>
+<TD>Z >> 4</TD><TD>00000000 00000010</TD><TD>2</TD>
+</TR>
+<TR>
+<TD>Z >> 1</TD><TD>00000000 00000001</TD><TD>1</TD>
+</TR>
+<TR>
+<TD>Z >> 1</TD><TD>00000000 00000000</TD><TD>0</TD>
+</TR>
+</TABLE>
+<P>The operation <B>Z << 1</B>, when the value of <B>Z</B> is <B>49152</B> results in an 
+overflow and does not have the effect of multiplication by <B>2</B>.  
+However, the operation <B>Z >> 1</B>, when the value of <B>Z</B> is <B>1</B>, has the 
+effect of integer division.   Remember, shifting left is a 
+multiply by 2 at each bit position, where shifting right is 
+dividing by 2 at each bit position shifted. 
+<BR>
+<H3>
+4.13 Precedence and Associativity
+</H3>
+<BR>
+<P>Left and right shift operators have equal precedence and they 
+associate from left to right.  Thus, the expression
+<BR>
+<PRE>
+    1 << 1 >> 2
+
+is interpreted as 
+
+    (1 << 1) >> 2
+</PRE>
+<BR>
+<P>The precedence of the shift operators is lower than that of any 
+arithmetic operator, but higher than that of any bitwise logical 
+operator except the unary bitwise complement operator.  Thus, the 
+express 
+<BR>
+<PRE>
+    1 << 2 - 1
+
+is interpreted as 
+
+    1 << (2 -1)
+
+and the expression
+
+    01 | ~01 << 1 
+
+is interpreted as 
+
+    01 | ( ( ~01 ) << 1 )
+</PRE>
+<BR>
+<H3>
+4.14 Bitwise AND Operator: &
+</H3>
+<BR>
+<P>This is not the address of operator, but the bitwise AND 
+operator.  The address of operator is a unary operator that has 
+only one operand, whereas the bitwise AND operator is a binary 
+operator and thus requires two operands. 
+<BR>
+The bitwise AND operator <B>&</B> has the formation 
+<BR>
+<PRE>
+    intvalue & intvalue
+</PRE>
+<BR>
+<P>When it is applied to two integral operands, the binary 
+representations of the converted values of the operands are 
+compared bit by bit.  If <B>Z1</B> and <B>Z2</B> represent corresponding bits 
+of the two operands, then the result of <B>Z1 & Z2</B> is shown in the 
+following truth table: 
+<BR>
+<H4>
+Table 4-6
+</H4>
+<BR>
+<TABLE BORDER>
+<CAPTION Align=top>Truth Table for Bitwise AND (&)</CAPTION>
+<TR>
+<TH>Z1</TH><TH>Z2</TH><TH>Z1 & Z2 </TH>
+</TR>
+<TR>
+<TD>1</TD><TD>1</TD><TD>1</TD>
+</TR>
+<TR>
+<TD>1</TD><TD>0</TD><TD>0</TD>
+</TR>
+<TR>
+<TD>0</TD><TD>1</TD><TD>0</TD>
+</TR>
+<TR>
+<TD>0</TD><TD>0</TD><TD>0</TD>
+</TR>
+</TABLE>
+<BR>
+<P>For example, given that 
+<BR>
+<PRE>
+    unsigned int Z1 = 0xA, Z2 = 0x7;
+</PRE>
+<BR>
+<P>and that an integer is represented in 16 bits in the machine 
+being used, the expression <B>Z1 & Z2</B> has the value <B>0x2</B> as show 
+below:
+<BR>
+<H4<
+Table 4-7
+</H4>
+<BR>
+<TABLE BORDER>
+<TR>
+<TH>Expression</TH><TH>Binary Representation</TH><TH>Value</TH>
+</TR>
+<TR>
+<TD>Z1</TD><TD>0000 1010</TD><TD>0xA</TD>
+</TR>
+<TR>
+<TD>Z2</TD><TD>0000 0111</TD><TD>0x7</TD>
+</TR>
+<TR>
+<TD>Z1 & Z2</TD><TD>0000 0010</TD><TD>0x2</TD>
+</TR>
+</TABLE>
+<BR>
+<P>The logical AND operator <B>&&</B> and the bitwise AND operator <B>&</B> are 
+quite different.  The result of applying <B>&&</B> is always <B>0</B> or <B>1</B>, but 
+that of <B>&</B> depends upon the values of the operands.  
+
+<P>For example, 
+whereas the value of the expresseion <B>0xA && 0x7</B> is <B>1</B>, the value 
+of <B>0xA & 0x7</B> is <B>0x2</B>.  Only in the special case when the values of 
+the operands are restricted to be <B>0</B> or <B>1</B> is the result of 
+applying <B>&</B> and <B>&&</B> the same.  Moreover, in the case of <B>&&</B>, the 
+second operand is not evaluated if the first operand is <B>0</B>, but 
+both operands are evaluated in the case of <B>&</B>.
+<BR>
+<P>The bitwise AND operator is often used to turn some specified 
+bits off, that is, to set them to <B>0</B>.  For example, the statement
+<BR>
+<PRE>
+    Z1 &= Z2;
+</PRE>
+<BR>
+<P>as shown in the preceding example, turns off all but the low-
+order three bits of <B>Z1</B>.  Those three bits remain unchanged.
+<BR>
+<H3>
+4.15 Bitwise Inclusive OR Operator: |
+</H3>
+<BR>
+<P>The bitwise inclusive OR operator <B>|</B>, frequently referred to 
+simply as the bitwise OR operator, has the formation 
+<BR>
+<PRE>
+    intvalue | intvalue
+</PRE>
+<BR>
+<P>As in the case of the bitwise AND operator, when the bitwise OR 
+operator is applied to two integral operands, the binary 
+representations of the converted values of the operands are 
+compared bit by bit.  If <B>Z1</B> and <B>Z2</B> represent corresponding bits 
+of the two operands, then the result of <B>Z1 | Z2</B> is as shown in 
+the following truth table:
+<BR>
+<H4>
+Table 4-8
+</H4>
+<BR>
+<TABLE BORDER>
+<CAPTION Align=top>Truth Table for Bitwise OR (|)</CAPTION>
+<TR>
+<TH>Z1</TH><TH>Z2</TH><TH>Z1 | Z2 </TH>
+</TR>
+<TR>
+<TD>1</TD><TD>1</TD><TD>1</TD>
+</TR>
+<TR>
+<TD>1</TD><TD>0</TD><TD>1</TD>
+</TR>
+<TR>
+<TD>0</TD><TD>1</TD><TD>1</TD>
+</TR>
+<TR>
+<TD>0</TD><TD>0</TD><TD>0</TD>
+</TR>
+</TABLE>
+<BR>
+<P>For example, given that 
+<BR>
+<PRE>
+    unsigned int Z1 = 0xA, Z2 = 0x7;
+</PRE>
+<BR>
+<P>and that an integer is represented in 16 bits in the machine 
+being used, the expression <B>Z1 | Z2</B> has the value <B>0xF</B> as show 
+below:
+<BR>
+<H4>
+Table 4-9
+</H4>
+<BR>
+<TABLE BORDER>
+<TR>
+<TH>Expression</TH><TH>Binary Representation</TH><TH>Value</TH>
+</TR>
+<TR>
+<TD>Z1</TD><TD>0000 1010</TD><TD>0xA</TD>
+</TR>
+<TR>
+<TD>Z2</TD><TD>0000 0111</TD><TD>0x7</TD>
+</TR>
+<TR>
+<TD>Z1 | Z2</TD><TD>0000 1111</TD><TD>0xF</TD>
+</TR>
+</TABLE>
+<BR>
+<P>The logical OR operator <B>||</B> and the bitwise OR operator <B>|</B> are also 
+quite different.  The result of applying <B>|</B> depends upon the 
+values of the operands, but that of <B>||</B> is always <B>0</B> or <B>1</B>.  Only in 
+the special case when the values of the operands are restricted 
+to be <B>0</B> or <B>1</B> is the result of <B>|</B> and <B>||</B> the same.  Further, in the 
+case of <B>||</B>, the second operand is not evaluated if the first 
+operand is <B>1</B>, but both operands are evaluated in the case of <B>|</B>.
+<BR>
+<P>The bitwise OR operator is frequently used to turn some specified 
+bits on, that is, to set them to 1.  For example, the statment
+<BR>
+<PRE>
+    Z1 |= Z2;
+</PRE>
+<BR>
+<P>as shown in the preceding example, ensures that the three 
+rightmost bits of <B>Z1</B> are turned on.
+<BR>
+<H3>
+4.16 Bitwise Exclusive OR Operator: ^
+</H3>
+<BR>
+<P>The bitwise exclusive OR operator <B>^</B>, frequently referred to 
+as the bitwise XOR operator, has the formation 
+<BR>
+<PRE>
+    intvalue ^ intvalue
+</PRE>
+<BR>
+<P>In the case of the bitwise exclusive OR also, the binary 
+representations of the converted values of the operands are 
+compared bit by bit.  If <B>Z1</B> and <B>Z2</B> represent corresponding bits 
+of the two operands, then the result of <B>Z1 ^ Z2</B> is as shown in 
+the following truth table:
+<BR>
+<H4>
+Table 4-10
+</H4>
+<BR>
+<TABLE BORDER>
+<CAPTION Align=top>Truth Table for Bitwise XOR (^)</CAPTION>
+<TR>
+<TH>Z1</TH><TH>Z2</TH><TH>Z1 ^ Z2 </TH>
+</TR>
+<TR>
+<TD>1</TD><TD>1</TD><TD>0</TD>
+</TR>
+<TR>
+<TD>1</TD><TD>0</TD><TD>1</TD>
+</TR>
+<TR>
+<TD>0</TD><TD>1</TD><TD>1</TD>
+</TR>
+<TR>
+<TD>0</TD><TD>0</TD><TD>0</TD>
+</TR>
+</TABLE>
+<BR>
+<P>For example, given that 
+<BR>
+<PRE>
+    unsigned int Z1 = 0xA, Z2 = 0x7;
+</PRE>
+<BR>
+<P>and that an integer is represented in 16 bits in the machine 
+being used, the expression <B>Z1 ^ Z2</B> has the value <B>0x9</B> as show 
+below:
+<BR>
+<H4>
+Table 4-11
+</H4>
+<BR>
+<TABLE BORDER>
+<TR>
+<TH>Expression</TH><TH>Binary Representation</TH><TH>Value</TH
+</TR>
+<TR>
+<TD>Z1</TD><TD>0000 1010</TD><TD>0xA</TD>
+</TR>
+<TR>
+<TD>Z2</TD><TD>0000 0111</TD><TD>0x7</TD>
+</TR>
+<TR>
+<TD>Z1 ^ Z2</TD><TD>0000 1001</TD><TD>0x9</TD>
+</TR>
+</TABLE>
+<P>The exclusive OR operator has the property that any value XORed 
+with itself produces <B>0</B>. as the result.  Thus, we have
+<BR>
+<H4>
+Table 4-12
+</H4>
+<BR>
+<TABLE BORDER>
+<TR>
+<TH>Expression</TH><TH>Binary Representation</TH><TH>Value</TH>
+</TR>
+<TR>
+<TD>Z1</TD><TD>0000 1010</TD><TD>0xA</TD>
+</TR>
+<TR>
+<TD>Z1</TD><TD>0000 1010</TD><TD>0xA</TD>
+</TR>
+<TR>
+<TD>Z1 ^ Z1</TD><TD>0000 0000</TD><TD>0x0</TD>
+</TR>
+</TABLE>
+<BR>
+<P>This property is often used by assembly language programmers to 
+set a value to <B>0</B> or to compare two values to determine if they 
+are equal. 
+<BR>
+<P>Another useful property of this operator is that if the result of 
+XORing a value with another value is again XORed with the second 
+value, the result is the first value.  Thus we have
+<BR>
+<H4>
+Table 4-13
+</H4>
+<BR>
+<TABLE BORDER>
+<TR>
+<TH>Expression</TH><TH>Binary Representation</TH><TH>Value</TH
+</TR>
+<TR>
+<TD>Z1</TD><TD>0000 1010</TD><TD>0xA</TD>
+</TR>
+<TR>
+<TD>Z2</TD><TD>0000 0111</TD><TD>0x7</TD>
+</TR>
+<TR>
+<TD>Z1 ^ Z1</TD><TD>0000 0000</TD><TD>0x0</TD>
+</TR>
+<TR>
+<TD>Z1 ^ Z2</TD><TD>0000 1101</TD><TD>0xD</TD>
+</TR>
+<TR>
+<TD>(Z1 ^ Z2) ^ Z2</TD><TD>0000 1010</TD><TD>0xA</TD>
+</TR>
+</TABLE>
+<BR>
+<P>That is, <B>(Z1 ^ Z2) ^ Z2</B> is equal to <B>Z1</B>.  This property is 
+frequently used in designing bit-manipulation ciphers in 
+cryptography.  
+<BR>
+<P>The bitwise exclusive OR operator can also be used to interchange 
+two values without using a temporary variable.  Thus, the 
+statement
+<BR>
+<PRE>
+    Z1 ^= Z2, Z2 ^= Z1, Z1 ^= Z2;
+</PRE>
+<BR>
+<P>swaps the values of <B>Z1</B> and <B>Z2</B>, as shown below:
+<BR>
+<H4>
+Table 4-14
+</H4>
+<BR>
+<TABLE BORDER>
+<TR>
+<TH>Expression</TH><TH>Binary Representation</TH><TH>Value</TH>
+</TR>
+<TR>
+<TD>Z1</TD><TD>0000 1010</TD><TD>0xA</TD>
+</TR>
+<TR>
+<TD>Z2</TD><TD>0000 0111</TD><TD>0x7</TD>
+</TR>
+<TR>
+<TD>Z1 ^= Z2</TD><TD>0000 1010</TD><TD>0xD</TD>
+</TR>
+<TR>
+<TD>Z2 ^= Z1</TD><TD>0000 1101</TD><TD>0xA</TD>
+</TR>
+<TR>
+<TD>Z1 ^= Z2</TD><TD>0000 0111</TD><TD>0x7</TD>
+</TR>
+</TABLE>
+<BR>
+<H3>
+4.17 Precedence and Associativity
+</H3>
+<BR>
+<P>The order of precedence of the bitwise logical operators is 
+bitwise complement, bitwise AND, bitwise exclusive OR, and then 
+bitwise inclusive OR.  Except for the bitwise complement that 
+associates from right to left, all others associate from left to 
+right.  Thus, the expression
+<BR>
+<PRE>
+    01 | ~01 ^ 01 & 01
+</PRE>
+<BR>
+<P>is interpreted as 
+<BR>
+<PRE>
+    01 | ( ( ~01 ) ^ ( 01 & 01 ) )
+</PRE>
+<BR>
+<P>Note that the precedence of the binary bitwise logical operators 
+is lower than the equality operator <B>==</B> and the inequality operator 
+<B>!=</B>.  Thus, parentheses are necessary in expressions such as 
+<BR>
+<PRE>
+    ( i & 01 ) == 0
+
+or 
+
+    ( i ^ 01 ) != 0
+</PRE>
+<BR>
+<H3>
+4.18 Sequence Points or comma
+</H3>
+<BR>
+<P>The comma operator is used to insure that parts of an expression 
+are performed in a left to right sequence.  The comma allows for 
+the use of multiple expressions to be used where normally only 
+one would be allowed.  It is used most often in the <B>for</B> loop 
+statement where one statement is called for, but several actually 
+need to be coded.  
+<BR>
+<P>The comma operator forces all operations that appear to the left 
+to be fully completed before proceeding to the right of comma.  
+This helps eliminate side effects of the expression evaluation.  
+<BR>
+<PRE>
+    num1 = num2 + 1, num2 = 2
+</PRE>
+<BR>
+<P>The comma insures that <B>num2</B> will not be changed to a 2 before 
+<B>num2</B> has been added to 1 and the result placed into <B>num1</B>. 
+<BR>
+<P>Other operators are also considered to be sequence points.  They 
+are:
+<BR>
+<PRE>
+    &&
+    || 
+    ?:
+</PRE>
+<P>When any of these operators are encountered all activity 
+associated with any operator to the left is completed before the 
+new operator begins executing.  Both the semicolon and the comma 
+also perform this service, insuring that there is a way to 
+control the order of when things happen in a program.  
+<BR>
+<P>The commas that separate the actual arguments in a function call 
+are punctuation symbols, not sequence points.  A punctuation 
+symbol does not guarantee that the arguments are either evaluated 
+or passed to the function in any particular order.  

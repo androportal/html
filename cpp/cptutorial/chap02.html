@@ -1,0 +1,1076 @@
+<HTML>
+<HEAD>
+   <META HTTP-EQUIV="Content-Type" CONTENT="text/html; charset=iso-8859-1">
+   <TITLE>C/C++ Programming</TITLE>
+</HEAD>
+<BODY>
+
+<A NAME="chap02.html">
+<H1>
+Chapter 2 Basic Program Structure, Variables, Data Types and Constants
+</H1>
+</A>
+
+<P>This chapter will introduce the structure of a C and C++ program along
+with how to declare variables and constants.
+<BR>
+<H3>
+2.1 The C and C++ Programming Languages
+</H3>
+
+
+<P>The C and C++ programming languages are powerful mid-level programming
+languages that were created as systems programming languages. This means
+that the language allows access to operating system functions. In addition
+the language has the capability for easy access to hardware.
+
+<P>The C language is a very portable language in that it is relatively
+easy to port source code from one compiler to another. This is possible
+because all input-output calls are isolated from the language syntax in
+vendor supplied libraries.
+
+<P>The C and C++ language compiler is a very small program that recognizes
+only 60 key words. The compiler can produce very efficient executable programs
+because of the simplicity of the language, the compiler can be made to
+optimize the resultant code. Also, the linkage editor only incorporates
+object modules that are actually used in the executable program.
+
+<H3>
+2.2 Advantages and Disadvantages of C and C++
+</H3>
+<P>The C and C++ language is a structured language which supports all necessary
+components of a structured language such as global and local variables,
+parameter passing by value and reference, and function and/or procedure
+return values. The C and C++ compiler also supports the concept of separate
+compilation of source code modules and the linking of independent object
+modules either from standalone files or from system or local libraries.
+This separate compilation feature allows the programmer to recompile only
+the parts of an application that have changed and relink those modified
+parts with existing modules to produce a new executable program.
+
+<P>The C and C++ compiler also allows an interface to assembly language.
+The compiler allows blocks of code can be written in assembly and linked
+with blocks written in C and C++. A block of code could be a function or
+simply several lines of code within a larger C and C++ function. The programmer
+only has to use the keyword <B>asm</B> followed by an opening <B>{</B>,
+then the assembly code for the processor being used and then a terminating
+<B>}</B>. The assembly code can use any variable declared within the C
+and C++ code that follows within the scope of the assembly code.
+
+<P>The C language component of a C and C++ compiler has some weaknesses
+that make the language difficult to use as an application language. The
+language lacks strong type checking, meaning that the compiler will allow
+a character variable to be stored into a floating point variable without
+complaining. The C++ component of a C and C++ compiler has much stronger
+type checking and will issue warnings for such behavior. So for the programmer
+to receive the maximum protection against mixed type errors, it would be
+better to use the C++ component of the C and C++ compiler.
+
+<P>Neither C nor C++ has bounds checking on arrays. For example, if a programmer
+declares an array of 50 integers, but in the program code he or she by
+mistake stores a value into array element 52, the compiler will not complain.
+The integer value was indeed stored at the fifty-second integer sized offset
+from the base address of the array. This lack of bounds checking can cause
+severe problems in some programs.
+
+<P>In the MS-DOC and PC-DOS operating system, neither C nor C++ has any
+memory protection from access by pointers. A programmer can load a memory
+address of any place in memory into a pointer and through that pointer
+retrieve or set the value at that memory address. This feature can cause
+the DOS operating system to re- boot, hang-up, or crash completely. In
+addition, a programmer that is unfamiliar with the use of pointers, can,
+in MS/PC-DOS, cause his or her hard disk drive to crash, be reformatted,
+or destroyed. The same also holds true for the video display on a DOS machine.
+Fortunately, mini-computer operating systems, such as UNIX, have builtin
+memory protection that prevents such dangerous happenings as stated above.
+
+<P>Also, C and C++ does not have sophisticated string and record handling
+capabilities. Strings must be handled with a series of functions supplied
+in the standard C and C++ libraries. With C++, sophisticated String objects
+can be created as well as advanced record management schemes.
+<BR>
+<H3>
+2.3 Program Structure and Rules
+</H3>
+
+<P>The majority of C and C++ programs are composed of functions. All functions
+have the following general form:
+<PRE> 
+ Function-Return-Type Function-Name(argument list)
+ {
+ local variable declarations;
+
+ body of the function;
+ }
+</PRE>
+
+<P>A general form for a C and C++ program is as follows:
+<PRE> 
+ inclusion of header files
+ defined constants
+ declarations of global variables
+
+ Function-Return-Type main(arguments from command line)
+ {
+ declaration of local variables used by main function;
+
+ body of the main function;
+ }
+
+ Function-Return-Type next_function(argument list)
+ {
+ declaration of local variables for next_function;
+ body of the next_function;
+ }
+</PRE>
+
+<P>A C and C++ program must have one and only one function with the name
+of <B>main</B>. <B>main</B> must be in lower case. The <B>main</B> function
+should have a return type of either <B>int</B> or <B>void</B>, with <B>int</B>
+being the preferred return type. Since <B>main</B> is the entry point to
+the program from a calling process, which could be the operating system
+or another program, the return value of main is used to indicate the completion
+status of the called program. A program that returns a value of 0 is considered
+to have completed successfully and a return value other than 0 is considered
+to indicate an abnormal termination.
+
+<P>All functions in the program, besides <B>main</B>, can have names the
+programmer desires. The names of functions should indicate what task or
+purpose that function is to perform. All C and C++ keywords must be in
+lower case. Function names can be composed of letters, digits and underscores
+and can be a maximum of 30 characters, but must be unique in the first
+8 characters.
+
+<P>Functions must have a pair of curly braces, <B>{</B> <B>}</B>, these
+signify the beginning and end of a function's scope. The names of variables
+that are declared within a function can be the same as function names,
+but this is not a good practice. Variables declared within the scope of
+a function are called local variables. Local variables "live" only while
+the function has control. When the function terminates, and control returns
+to the calling function, all local variables cease to exist. The statements
+within a function are terminated with a semi-colon, this is called the
+statement terminator. Nested functions or subroutines are not allowed.
+Nesting a function means that one function is defined within another.
+
+<P>The difference between a declaration and definition is important. A
+<B>declaration</B> announces the properties of a variable or a function.
+The main reason for declaring variables and functions is for type checking.
+If you declare a variable or function and then later make reference to
+it with data objects that do not match the types in the declaration, the
+compiler will complain. The purpose of the complaint is to catch type errors
+at compile time rather than waiting until the program is run, when the
+results can be more disastrous.
+
+<P>A <B>definition</B>, on the other hand, actually sets aside storage
+space (in the case of a variable) or indicates the sequence of statements
+to be carried out (in the case of a function). A function prototype, or
+declaration, is a return type followed by a function declarator followed
+by a semicolon. A function definition is a return type followed by a function
+declarator followed by a function body enclosed in matching braces, <B>{
+}</B>. A function definition can also serve as a declaration for all source
+code following the definition. The only time a function declaration is
+actually required is when a reference is made to a function before the
+function definition is specified.
+
+<P>A variable declaration with an <B>extern</B> specifier is not a definition,
+unless it has an initializer. The function prototype is a function declaration,
+but it is not a definition.
+
+<P>To place comments in a C and C++ program the programmer may use <B>/*</B>
+and <B>*/</B> pairs. These comment indicators cannot be nested but can
+span multiple lines. C++ allows the use of <B>//</B> as a comment indicator.
+This symbol indicates that the rest of the line upto the newline character
+is to be treated as a comment.
+
+<P>When first learning C and C++ programming, always start C programs with
+<PRE>
+ #include "stdio.h"
+</PRE>
+and C++ programs with
+<PRE>
+ #include "iostream.h"
+</PRE>
+<P>These header files include the function prototypes that allow a program
+to call the standard input/output functions that make it possible to write
+to the screen and read from the keyboard.
+<BR>
+<H4>
+Listing 2-1
+</H4>
+
+<PRE>
+#include "stdio.h"
+int main()
+{
+char name[30];
+
+ /* prompt user for name */
+ printf("\nEnter your name: ");
+ /* read the users response from the keyboard */
+ gets(name);
+ /* print welcome message */
+ printf("\nWelcome %s to C Language Programming", name);
+ return 0;
+}
+</PRE>
+
+<H4>
+Listing 2-2
+</H4>
+
+<PRE>
+#include "iostream.h"
+int main()
+{
+char lname[25], fname[15];
+
+ // prompt user for first name and last name
+ cout << "\nEnter your first name then last name: ";
+ // read the users response from the keyboard
+ cin >> fname >> lname;
+ // print welcome message
+ cout << "\nWelcome " << fname << " " << lname
+ << " to C++ Language Programming"
+ << endl;
+ return 0;
+}</PRE>
+
+<H3>
+2.4 Header Files
+</H3>
+
+<P>Header files are source code files that contain defined constants, constant
+values, macros, data type templates and function prototypes. C and C++
+needs to define function prototypes for calls to functions residing outside
+of the current file. All input/output functions, memory management function,
+string manipulation functions, math functions and assorted other functions
+reside in external libraries and are not part of the syntax of the language.
+In order for a C and C++ program to make use of these capabilities, the
+program must first include the proper header file that prototypes the functions
+desired. The program is then compiled, with the prototypes used to syntax
+check the calls to the external functions. The compiler produces an object
+code representation of the source file with a table that contains references
+to functions for which the compiler could not find the code. The object
+file is then given to the linkage editor program that attempts to resolve
+the external references with functions in the standard C and C++ function
+libraries. If the linkage editor is able to resolve all references, then
+an executable program is produced, otherwise, linker error messages that
+state what functions could not be found are produced.
+
+<P>The location of header files is dependent upon what operating system
+is being used and in the case of a PC environment, which vendor's compiler
+is being used. The following shows the most common locations for header
+files.
+<BR>
+<H4>
+Table 2-1
+</H4>
+
+
+<TABLE BORDER>
+<CAPTION Align=top>Location of Header Files by Vendor</CAPTION>
+<TR> 
+<TH>Operating System</TH><TH>Compiler Vendor</TH><TH> Standard Headers</TH>
+</TR>
+<TR>
+<TD>UNIX</TD><TD>GNU</TD><TD>/usr/include</TD>
+</TR>
+<TD></TD><TD>system supplier</TD><TD>/usr/include</TD>
+</TR>
+<TR>
+<TD>DOS</TD><TD>Borland</TD><TD>c:\bc4\include</TD>
+</TR>
+<TR>
+<TD></TD><TD>Microsoft</TD><TD>c:\msvc\include</TD>
+</TR>
+</TABLE>
+
+<H3>
+2.5 C and C++ Compiler
+</H3>
+
+<P>Most C and C++ compilers are four pass compilers. The first pass is
+called the preprocessor and this pass looks only for <B>#</B> in the source
+line. The preprocessor commands indicate
+<OL Type=1 Start=1>
+<LI>file inclusion
+<LI>macro definition
+<LI>constant definition
+<LI>conditional compilation. 
+</OL>
+All statements can
+be free form or appear anywhere on the line. The second pass of the compiler
+parses C and C++ language statements, constructs a symbol table and reports
+syntax errors. The third pass generates the object code that represents
+the source code that was input. Also, this pass builds the external reference
+table. The fourth pass performs code optimization on the object code.
+
+<P>If the compiler did not find any errors, then the compiler starts a
+process on the linker or loader. The linker takes the object code representing
+the original source statements and binds or links that binary code with
+the binary code of any external functions or subroutines that the program
+called. For a simple program, the external functions are found in the standard
+C library which is located in a library file in a subdirectory known to
+the linker program. For more complex application programs, the linker must
+be directed to look not only at the standard library files but at additional
+libraries that were either developed internally or were purchased from
+a third party.
+
+<P>The location of library files is dependent upon what operating system
+is being used and in the case of a PC environment, which vendor's compiler
+is being used. The following shows the most common locations for the standard
+C library file.
+<BR>
+<H4>
+Table 2-2
+</H4>
+
+<TABLE BORDER>
+<CAPTION Align=top>Location of Standard Libraries by Vendor </CAPTION>
+<TR> 
+<TH>Operating System</TH><TH>Compiler Vendor</TH><TH> Standard Library</TH>
+</TR>
+<TR>
+<TD>UNIX</TD><TD>GNU</TD><TD>/usr/lib/libc.a</TD>
+</TR>
+<TR>
+<TD></TD><TD>system supplier</TD><TD>/usr/lib/libc.a</TD>
+</TR>
+<TR>
+<TD>DOS</TD><TD>Borland</TD><TD>c:\bc4\lib\cX.lib</TD>
+</TR>
+<TR>
+<TD></TD><TD>Microsoft</TD><TD>c:\msvc\lib\Xlibce.lib
+(where X is one of S, M,C, L, or H which stands for the various memory models available on a PC )</TD>
+</TR>
+</TABLE>
+<H3>
+2.6 Variables, Data Types and Constants
+</H3>
+
+<P>Before starting to program in C and C++, it is necessary to become familiar
+with the rules concerning the declaration of variables, the types of variables,
+the way those variables can be used to form expressions and the way values
+for those variables can be input and output.
+<BR>
+<H3>
+2.7 Data Types
+</H3>
+
+<P>C and C++ requires that all variables or identifiers be declared before
+there use. Variables or identifiers have three attributes associated with
+them; 
+<OL Type=1 Start=1>
+<LI>the storage class
+<LI>the type modifier
+<LI>the data type
+</OL>
+<P>Under the ANSI C standard all variables or identifiers can be assigned
+an initial value when declared.
+
+<P>Identifiers also fall into two major categories. An identifier is either
+a global variable or identifier or a local variable or identifier. A global
+variable is one that is declared outside the bounds of a function. The
+boundaries of a function start at the function heading and end at the closing
+curly brace, <B>}</B>. The following represents the function heading:
+<PRE> 
+ function-return_type function_name( argument list )
+ {
+ ...
+ }
+</PRE>
+
+<P>A global variable can be accessed by any function that is defined below
+the declaration of the variable, but cannot be seen by any function that
+is defined above the variable declaration. A global variable will hold
+any value placed into it until another value is stored into it or until
+the program terminates. Global variables are not initialized to any predefined
+value when declared, so it must be initialized if a starting value is expected.
+
+<P>A local variable is declared within the bounds of a function, and can
+only be seen by statements within the body of the function where the variable
+is declared. A local variable will only hold a value placed into it for
+as long as the function that the variable is declared within has program
+control. When the function returns control back to the calling function,
+either through a <B>return</B> statement or by encountering the closing
+<B>}</B>, the local variable is destroyed. A local variable has no predefined
+value when declared, so it must be initialized if a starting value is expected.
+
+<P>The following examples will illustrate.
+<BR>
+<H4>
+Listing 2-3
+</H4>
+
+<PRE>
+ #include "stdio.h"
+
+ int myage; /* global variable to both main() 
+               and getage() */
+
+int main()
+{
+char myname[30];
+void getage();
+
+ printf("\nEnter your name:");
+ gets( myname );
+ getage();
+ printf("\n AGE = %d and NAME = %s", myage, myname );
+ return 0;
+}
+
+void getage()
+{
+ printf("\nEnter your age: ");
+ scanf("%d",&amp;myage);
+}
+</PRE>
+
+<H4>
+Listing 2-4
+</H4>
+
+<PRE>
+#include "iostream.h"
+
+int myage; // global variable to both main() and getage()
+
+int main()
+{
+char myname[30];
+void getage();
+
+ cout << "Enter your name: ";
+ cin >> myname;
+ getage();
+ cout << "AGE = " << myage
+ << " NAME = " << myname;
+ return 0;
+}
+
+void getage()
+{
+ cout << "Enter your age: ";
+ cin >> myage;
+}
+</PRE>
+
+<P>In the above example <B>int myage</B> declares the variable <B>myage</B>
+outside of <B>main()</B>, and both <B>main()</B> and <B>getage()</B> can
+use <B>myage</B>.
+<BR>
+<H4>
+Listing 2-5
+</H4>
+
+<PRE>
+#include "stdio.h"
+
+int main()
+{
+char myname[30];
+void getage();
+
+ printf("\nEnter your name:");
+ gets( myname );
+ getage();
+ printf("\n AGE = %d and NAME = %s", myage, myname );
+ return 0;
+}
+
+int myage; /* global to only getage() */
+
+int getage()
+{
+ printf("\nEnter your age: ");
+ scanf("%d",&amp;myage);
+}
+</PRE>
+
+<H4>
+Listing 2-6
+</H4>
+
+<PRE>
+#include "iostream.h"
+
+int main()
+{
+char myname[30];
+void getage();
+
+ cout << "Enter your name: ";
+ cin >> myname;
+ getage();
+ cout << "AGE = " << myage
+ << " NAME = " << myname;
+ return 0;
+}
+</PRE>
+
+<PRE>
+int myage; // global only to getage
+
+int getage()
+{
+ cout << "Enter your age: ";
+ cin >> myage;
+}
+</PRE>
+
+<P>In the above example, <B>int myage</B> is global only to <B>getage()</B>
+and only <B>getage()</B> can see and use <B>myage</B>. The function <B>main()</B>
+cannot use <B>myage</B> because it does not know of its existence; therefore,
+the above example will not compile on most systems. For the above example
+to compile and work, the function <B>getage()</B> would have to return
+the value <B>myage</B> holds and the function <B>main()</B> would have
+to receive the returned value from <B>getage()</B> into some local variable,
+and then print the contents of that variable.
+
+<P>When first learning to write C and C++ programs, the student should
+avoid using global variables. Beginning C and C++ programmers must learn
+to write programs that use only local variables in order to learn the concepts
+of modular programming. This style of programming will make it much easier
+to debug programs.
+<BR>
+<H4>
+Listing 2-7
+</H4>
+
+<PRE>
+#include "stdio.h"
+
+int main()
+{
+char myname[30];
+int theage;
+int getage();
+
+ printf("\nEnter your name:");
+ gets( myname );
+ theage = getage();
+ printf("\n AGE = %d and NAME = %s", theage, myname );
+ return 0;
+}
+
+int getage()
+{
+int myage; /* local to only getage() */
+
+ printf("\nEnter your age: ");
+ scanf("%d",&amp;myage);
+ return (myage);
+}
+</PRE>
+
+<H4>
+Listing 2-8
+</H4>
+
+<PRE>
+#include "iostream.h"
+
+int main()
+{
+char myname[30];
+int theage;
+int getage();
+
+ cout << "Enter your name: ";
+ cin >> myname;
+ theage = getage();
+ cout << "AGE = " << theage
+ << " NAME = " << myname;
+ return 0;
+}
+
+int getage()
+{
+int myage; // local only to getage
+
+ cout << "Enter your age: ";
+ cin >> myage;
+ return (myage);
+}
+</PRE>
+
+<P>A description of the syntax of a variable declaration is:
+<PRE> 
+[storage class][type modifier]type id-1 [= initial value];
+
+Examples:
+ auto int x = 0;
+ extern float average;
+ static double seed;
+ register int indx;
+ unsigned char = 205;
+ char name[] = "John Smith";
+</PRE>
+
+<H3>
+2.8 Storage Classes
+</H3>
+
+<P>Storage classes are used to indicate duration and scope of a variable
+or identifier. Duration indicates the life span of a variable. Scope indicates
+the visibility of the variable.
+
+<P>The <B>auto</B> storage class is the default storage class for a local
+variable. This storage class makes the variable known only to the function
+in which it is declared. The duration is temporary. The variable exists
+only as long as the function where it was declared has control. The scope
+is local. The variable is known or visible only within the function where
+it is declared.
+<PRE> 
+ #include "stdio.h"
+
+ int main()
+ {
+ char myname[30]; /* lives only until the } is */
+ /* encountered */
+ int myage;
+ ...
+ }
+</PRE>
+
+<P>The <B>static</B> storage class is used to declare an identifier that
+is a local variable either to a function or a file and that exists and
+retains its value after control passes from where it was declared. This
+storage class has a duration that is permanent. A variable declared of
+this class retains its value from one call of the function to the next.
+The scope is local. A variable is known only by the function it is declared
+within or if declared globally in a file, it is known or seen only by the
+functions within that file. This storage class guarantees that declaration
+of the variable also initializes the variable to zero or all bits off.
+<BR>
+<H4>
+Listing 2-9
+</H4>
+
+<PRE>
+#include "stdio.h"
+
+int main()
+{
+char myname[30];
+void getage();
+int readage();
+int lastage;
+
+ printf("\nEnter your name:");
+ gets( myname );
+ getage();
+ lastage = readage();
+ printf("\n AGE = %d and NAME = %s", lastage, myname );
+ return 0;
+}
+
+static int myage; /* global static seen by all code */
+                  /* coming after this statement */
+void getage()
+{
+ printf("\nEnter your age: ");
+ scanf("%d",&amp;myage);
+}
+
+int readage()
+{
+ return myage;
+}
+</PRE>
+
+<P>The <B>extern</B> storage class is used to declare a global variable
+that will be known to the functions in a file and capable of being known
+to all functions in a program. This storage class has a duration that is
+permanent. Any variable of this class retains its value until changed by
+another assignment. The scope is global. A variable can be known or seen
+by all functions within a program.
+
+<P>The following resides in FILE1.C:
+<BR>
+<H4>
+Listing 2-10A
+</H4>
+
+<PRE>
+#include "stdio.h"
+
+int myage;
+int main()
+{
+char myname[30];
+void getage();
+
+ printf("\nEnter your name:");
+ gets( myname );
+ getage();
+ printf("\n AGE = %d and NAME = %s", myage, myname );
+ return 0;
+}
+</PRE>
+
+<P>This resides within FILE2.C:
+<BR>
+<H4>
+Listing 2-10B
+</H4>
+
+<P>The <B>register</B> storage class is used to declare a local variable
+except that the contents are stored in a CPU register. The storage class
+has a duration that is temporary. The variable is treated exactly like
+an <B>auto</B> class variable. The scope is local. The variable is treated
+exactly like an <B>auto</B> class variable. Only data types that occupy
+a word of storage of less can use this storage class because CPU registers
+are typically no longer than the word size of the machine. This would usually
+be used for a loop iterator or control variable in order to gain as much
+speed as possible in the code.
+<BR>
+<H4>
+Listing 2-11
+</H4>
+
+<PRE>
+#include "stdio.h"
+
+int main()
+{
+char thename[30];
+register int count;
+
+ printf("\nEnter ten names. " );
+ for( count = 0; count < 10; ++ count )
+ {
+ printf("\nEnter a name:");
+ gets( thename );
+ printf("\n NAME = %s", thename );
+ }
+ return 0;
+}
+</PRE>
+
+<P>The modifier of a data type can be one of the following:
+
+<P><B>unsigned</B>
+
+<P>Indicates that the following data type will not have a sign bit allocated.
+This modifier can be used with <B>char</B> or <B>int</B> data types.
+
+<P><B>signed</B>
+
+<P>Indicates that the following data type will have a sign bit allocated.
+Signed data items are the default on most systems. This modifier can be
+used with <B>char</B> or <B>int</B> data types.
+
+<P><B>short</B>
+
+<P>The data storage allocated is usually no bigger in number of bits allocated
+than an <B>int</B> data type. This modifier can be used with an <B>int</B>
+data type or by itself. If used without a following data type, <B>int</B>
+is implied as the data type.
+
+<P><B>long</B>
+
+<P>The data storage allocated on most systems is usually twice the number
+of bits allocated to an <B>int</B> data type. On some systems 32-bit and
+longer word length systems, <B>long</B> gets the same number of bits as
+an <B>int</B>.
+
+<P>This modifier is used on either <B>int</B> or <B>float</B> type data.
+When used on <B>int</B> type data, it usually means data storage is twice
+as long as an <B>int</B> data type. When used on <B>float</B> type data,
+it creates a data type of <B>double</B>. When used without a following
+data type, <B>int</B> is implied as the data type.
+
+<P>The base data types available are:
+
+<P><B>char</B>
+
+<P>Items of this type hold character type data and occupy one byte of storage.
+On most machines one byte is eight bits of storage. For most compilers
+this type of data items will be signed data item, meaning that one of the
+eights for storage has been set aside for an algebraic sign.
+
+<P><B>int</B>
+
+<P>Items of this type hold integer type data and occupy one word of storage.
+The length of a word will depend upon the machine architecture. These types
+of data items are by default signed data storage.
+
+<P><B>float</B>
+
+<P>Items of this type hold floating point or real type data and occupy
+one or two words of storage. The length of this data type is dependent
+upon the machine architecture. These types of data items are by default
+signed data storage.
+
+<P><B>double</B>
+
+<P>Items of this type hold double precision floating point type data and
+occupy two words of storage. These types of data items are by default signed
+data storage.
+<BR>
+<H3>
+2.9 Allocated Space for Data Types
+</H3>
+
+<P>The following chart indicates the number of bits allocated to the various
+data types of the C and C++ language. This chart applies to an IBM PC running
+MS-DOS.
+<H4>
+Table 2-3
+</H4>
+<TABLE BORDER>
+<CAPTION Align=top>Bits Per Data Type</CAPTION>
+<TR>
+<TH>Type</TH><TH>Number of Bits</TH>
+</TR>
+<TR>
+<TD>char</TD><TD>8</TD>
+</TR>
+<TR>
+<TD>int</TD><TD>32</TD>
+</TR>
+<TR>
+<TD>float</TD><TD>32</TD>
+</TR>
+<TR>
+<TD>double</TD><TD>64</TD>
+</TR>
+<TR>
+<TD>long int</TD><TD>32</TD>
+</TR>
+<TR>
+<TD>short int</TD><TD>16</TD>
+</TR>
+<TR>
+<TD>long float</TD><TD>64</TD>
+</TR>
+</TABLE>
+
+<H3>
+2.10 Variable Names
+</H3>
+
+<P>C and C++ both allow long descriptive variable or identifier names.
+The rules for forming a variable name also apply to function names. The
+rules are: 
+<OL Type =1 Start=1>
+<LI>the first character must be a letter, either lowercase or uppercase;
+<LI>case is significant, uppercase and lowercase letters are different;
+<LI>traditionally, variable names are composed of lowercase letters, numbers, and the underscore character
+<LI>defined constants are traditionally
+made up of all uppercase characters
+<LI>the number of characters allowed
+in a variable name is compiler dependent, but the variable must be unique
+in the first eight characters in order to be safe across compilers;
+<LI>make variable names descriptive; 
+<LI>do not make a variable name the same
+as a reserved word.
+</OL>
+
+<P>The reserved words for the ANSI C language are:
+<BR>
+<H4>
+Table 2-4
+</H4>
+
+<PRE> 
+ auto double int struct
+ break else long switch
+ case enum register typedef
+ char extern return union
+ const float short unsigned
+ continue for signed void
+ default goto sizeof volatile
+ do if static while
+</PRE>
+
+
+<P>The following reserved words have been added for C++
+<BR>
+<H4>
+Table 2-5
+</H4>
+
+<PRE>
+ catch protected
+ delete public
+ friend template
+ inline this
+ new throw
+ operator try
+ private virtual
+ wchar_t
+</PRE>
+
+<P>In addition, the X3J16 Technical Committee has proposed that the following
+keywords be added to the language definition for C++
+<BR>
+<H4>
+Table 2-6
+</H4>
+
+<PRE> 
+ and and_eq bitand bitor
+ bool compl not not_eq
+ or or_eq xor xor_eq
+</PRE>
+
+<H3>
+2.11 Constants
+</H3>
+
+<P>C and C++ allow for the programmer to define constants that represent
+decimal, hexadecimal octal, string and character constants. The <B>#define</B>
+preprocessor directive can be used to define constants that are to be used
+within a program.
+<PRE> 
+ #define PI 3.14156
+ #define MYNAME "JOHN DOE"
+ #define LIMIT 10
+ #define ESC '0x1B'
+</PRE>
+
+<P>In addition, literals can be used as constants in the body of the program.
+Literals can be string literals, character literals or numeric literals.
+Any numeric literal starting with a <B>0</B> (zero) is considered to be an octal
+number. In order to express hexadecimal literals, use a <B>0</B> (zero)
+followed by a lower case or upper case <B>x</B> or <B>X</B>.
+<BR>
+<H4>
+Fig 2-1
+</H4>
+
+<PRE> 
+ Octal Hex   Decimal
+
+ 023   0x13   19
+ 0777  0x1FF  511
+ 077   0x3F   63
+ 01    0x01   1
+</PRE>
+
+<P>Character constants are written within single quotes, double quotes
+are reserved for strings. For example:
+<PRE> 
+ char c;
+
+ c = 'A';
+</PRE>
+
+<P>stores a single character <B>A</B> into the character variable <B>c</B>.
+Whereas, the following
+<PRE> 
+   c = "A";
+</PRE>
+
+<P>attempts to store the string <B>A</B> into a single character variable
+<B>c</B>. A string is composed of the characters composing the string plus
+a NULL character, <B>\0</B> (a <B>\</B> followed by a zero).
+
+<P>Some characters cannot be typed in a source file but have special codes
+to represent their meanings, these are referred to in <B>C</B> and <B>C++</B>
+as escape sequences. <B>C</B> and <B>C++</B> predefines the following escape
+sequences
+<BR>
+<H4>
+Table 2-7</H4>
+
+<TABLE BORDER>
+<CAPTION Align=top>Pre-defined Escape Sequences</CAPTION>
+<TR> 
+<TH>Character in C or C++</TH><TH>Meaning</TH>
+</TR>
+<TR>
+<TD>\n</TD><TD>newline character</TD>
+</TR>
+<TR>
+<TD>\b</TD><TD>backspace</TD>
+</TR>
+<TR>
+<TD>\r</TD><TD>carriage return</TD>
+</TR>
+<TR>
+<TD>\t</TD><TD>horizontal tab</TD>
+</TR>
+<TR>
+<TD>\v</TD><TD>vertical tab</TD>
+</TR>
+<TR>
+<TD>\f</TD><TD>form feed character</TD>
+</TR>
+<TR>
+<TD>\a</TD><TD>ring the console bell</TD>
+</TR>
+<TR>
+<TD>\"</TD><TD>double quote</TD>
+</TR>
+<TR>
+<TD>\'</TD><TD>single quote</TD>
+</TR>
+<TR>
+<TD>\0</TD><TD>NULL (used to indicate end of string)</TD>
+</TR>
+<TR>
+<TD>\\</TD><TD>backslash</TD>
+</TR>
+<TR>
+<TD>\xxx</TD><TD>any three digit octal representation of
+ a character; also could be hexadecimal,
+ i.e., '\007' is the octal for the bell
+ character on the PC and 0x07 is the hex
+ for the bell character</TD>
+</TR>
+</TABLE>
+
+<P>The above escape sequences are typically used in <B>printf()</B> or
+<B>cout</B> to control cursor movement on the video display device. Some
+dot matrix printers also support the cursor movement escape sequences to
+move the print head on the page.
+<BR>
+<BR>
+<BR>
+<H3>
+2.11.1 const and volatile
+</H3>
+
+<P>Both <B>const</B> and <B>volatile</B> are two keywords that are in the
+ANSI C standard. They help identify which variables will never (<B>const</B>)
+change and those variables that can change unexpectedly (<B>volatile</B>).
+
+<P>Both keywords require that an associated data type be declared for the
+identifier, for example
+<PRE> 
+     const float pi = 3.14156;
+</PRE>
+<P>specifies that the variable <B>pi</B> can never be changed by the program.
+Any attempt by code within the program to alter the value of <B>pi</B>
+will result in a compile time error.
+
+<P>The value of a <B>const</B> variable must be set at the time the variable
+is declared. Specifying a variable as <B>const</B> allows the compiler
+to perform better optimization on the program because of the data type
+being known.
+
+<P>There is a tendency to replace all <B>#define</B> defined constants
+with variables using the <B>const</B> keyword. This is not a good idea.
+The defined constants are only incorporated within the program body if
+they are used. All variables declared with <B>const</B> take up address
+space in the program whether they are used or not. The defined constants
+can also be declared globally within an application header file and included
+into any number of source files that comprise the application source. If
+the defined constants are replaced with <B>const</B> variables in a header
+file and appear globally, errors result at the time the different compiled
+modules of the application are linked together. Therefore, <B>const</B>
+is not a direct replacement for <B>#define</B> constants.
+
+<P>The <B>volatile</B> keyword indicates that a variable can unexpectedly
+change because of events outside the control of the program. This usually
+is used when some variable within the program is linked directly with some
+hardware component of the system. The hardware could then directly modify
+the value of the variable without the knowledge of the program.
+<BR>
+
+</body>
+</html>

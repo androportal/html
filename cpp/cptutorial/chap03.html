@@ -1,0 +1,1054 @@
+<HTML>
+<HEAD>
+   <META HTTP-EQUIV="Content-Type" CONTENT="text/html; charset=iso-8859-1">
+</HEAD>
+<BODY>
+
+<A NAME="chap03.html">
+<H1>
+Chapter 3 Basic Input-Output Statements
+</H1>
+</A>
+
+<P>In order to learn how to program effectively in the C or C++ language,
+a student must learn how these languages manage the input and output of
+data to and from the screen and keyboard.
+<BR>
+<H3>
+3.1 Basic Screen and Keyboard I/O in C
+</H3>
+<P>The C language provides several functions that give different levels of
+input and output capability. These functions are, in most cases, implemented
+as routines that call lower level input/output functions.
+
+<P>The input and output functions in C are built around the concept of
+a set of standard data streams being connected from each executing program
+to the basic input/output devices. These standard data streams or files
+are opened by the operating system and are available to every C and assembler
+program to use without having to open or close the files. These standard
+files or streams are called:
+<PRE> 
+ - stdin : connected to the keyboard
+ - stdout : connected to the screen
+ - stderr : connected to the screen
+</PRE>
+<P>The following two data streams are also available on MS-DOS based computers,
+but not on UNIX or other multi-user based operating systems.
+<PRE> 
+   - stdaux : connected to the first serial communications port
+   - stdprn : connected to the first parallel printer port
+</PRE>
+<P>The input/output functions fall into two categories, formatted display
+and read functions, and non-formatted display and read functions. The following
+are descriptions of the formatted display and read functions.
+<PRE>
+<B>
+int printf( const char *format [,argument, ...] );
+</B>
+</PRE>
+<P>where <B>format</B> is composed of literal text, escape sequences used
+as carriage control, and format specifiers for conversion of data in the
+arguments to a display format. This function returns the number of characters
+printed.
+
+<P><B>printf()</B> returns the number of bytes output. In the event of
+error, <B>printf</B> returns EOF.
+
+<B>Example:</B>
+<PRE> 
+main()
+{
+ char name[30];
+
+ printf("\nEnter your name:");
+ gets(name);
+ printf("\nHello %s",name);
+}
+</PRE>
+<P>The <B>printf()</B> function has the capability to manage conversion control.
+<PRE>
+General form
+
+   <B>%[-][width][flags]format</B>
+
+where:
+
+<B>%</B>      : marks the start of the conversion control string 
+<B>-</B>      : specifies that the data is to be printed left-justified 
+<B>width</B>  : the width of field or number of spaces to allot on the display
+<B>flags</B>  : precision of output to be displayed
+<B>format</B> : the format specifier desired
+</PRE>
+<H5>
+Listing 3-1
+</H5>
+<PRE>
+#include "stdio.h"
+int main()
+{
+ printf("/%d/\n",336);
+ printf("/%2d/\n",336);
+ printf("/%10d/\n",336);
+ printf("/%-10d/\n",336);
+ return 0;
+}
+</PRE>
+results:
+<BR><BR>
+<H4>
+Fig 3-1:
+</H4>
+
+<PRE> 
+ /336/
+ /336/
+ / 336/
+ /336 /
+</PRE>
+
+<H4>
+Listing 3-2
+</H4>
+
+<PRE>
+#include "stdio.h"
+int main()
+{
+ printf("/%f/\n",1234.56);
+ printf("/%e/\n",1234.56);
+ printf("/%4.f/\n",1234.56);
+ printf("/%3.1f/\n",1234.56);
+ printf("/%10.3f/\n",1234.56);
+ printf("%10.3e/\n",1234.56);
+ return 0;
+}
+</PRE>
+results:
+<BR><BR>
+<H4>
+Fig 3-2:
+</H4>
+
+<PRE> 
+ /1234.560059/
+ /1.23456E+03/
+ /1234.56/
+ /1234.6/
+ / 1234.560/
+ / 1.234E+03/
+</PRE>
+
+<H4>
+Listing 3-3
+</H4>
+<PRE>
+#include "stdio.h"
+#define BLURB "Outstanding Program!"
+
+int main()
+{
+ printf("/%2s/\n",BLURB);
+ printf("/%22s/\n",BLURB);
+ printf("/%22.5s/\n",BLURB);
+ printf("/%-22.5s/\n",BLURB);
+ return 0;
+}
+
+results:
+
+ /Outstanding Program!/
+ / Outstanding Program!/
+ /Outst/
+ /Outst/
+</PRE>
+<H3>
+3.2 Formatted Input and Output
+</H3>
+<B>int scanf( const char *format [,address, ...] );</B>
+
+<P>where <B>format</B> is a list of format specifiers indicating the format
+and type of data to be read from the keyboard and stored in the corresponding
+<B>address</B>. There must be the same number of format specifiers and
+addresses as there are input fields.
+
+<P><B>scanf</B> returns the number of input fields successfully scanned,
+converted, and stored. The return value does not include scanned fields
+that were not stored. If <B>scanf</B> attempts to read end-of- file, the
+return value is EOF. If no fields were stored, the return value is 0.
+<BR>
+<H4>
+Listing 3-4
+</H4>
+
+<PRE>
+#include "stdio.h"
+
+int main()
+{
+char last_name[30];
+int age, ret;
+
+ printf("\nEnter Last_name and age");
+ scanf("%s %d%c", last_name, &amp;age, &amp;ret);
+ return 0;
+}
+</PRE>
+<P>The <B>scanf()</B> function scans the data input through the keyboard and
+by default delimits values by whitespace. Whitespace is defined as being
+a TAB, a blank or the newline character ('\n'). Therefore, data that is
+input with the intention of having embedded blanks as part of the data
+value will be broken into several values and distributed among the input
+variables specified in the <B>scanf()</B> statement. The result will more
+than likely not be what was desired.
+
+<P>In the above example, notice that although the prompt asks for the input
+of a name value and an age value, the <B>scanf()</B> function is told to
+read values for three arguments. The argument <B>ret</B> is an integer
+variable but <B>scanf()</B> is reading a <B>%c</B> or character value from
+the keyboard. The <B>ret</B> variable will hold the newline character input
+by the user pressing the RETURN or ENTER key on the keyboard. If the newline
+character is not extracted from the keyboard buffer, the newline will be
+picked up as the first argument of the next input statement, which could
+be a <B>scanf()</B>, a <B>gets()</B> or a <B>getchar()</B> function.
+
+<P>The format string is a character string that contains three types of
+specifiers: whitespace characers, non-whitespace characters and format-specifiers.
+
+<P>The format-specifiers have the following form:
+<PRE>
+   <B>%[*] [width] [h|l|L] type-character</B>
+</PRE>
+<P>Each format begins with the percent character, <B>%</B>, after which come
+the following, in this order: - An optional assignment-suppression character,
+<B>[*]</B>. This states that the value being read will not be assigned
+to an argument, but will be dropped. - An optional width specifier, <B>[width]</B>.
+This designates the maximum number of characters to be read that compose
+the value for the associated argument. Encountering whitespace before the
+width is satisfied terminates the input of this value and moves to the
+next. - An optional argument-type modifier, <B>[h|l|L]</B>. This modifies
+the type-character specifier to accept format for a type of : h = short
+int l = long int, if the type-character specifiers an integer conversion
+l = double, if the type-character specifiers a floating-point conversion
+L = long double, which is valid only with floating- point conversions
+
+<P><B>NOTE:</B> Simple data objects must be passed by reference in order
+for <B>scanf()</B> to be able to store data in the correct memory location.
+To pass by reference means to pass the memory address of a variable. The
+<B>&amp;</B> operator in front of a variable name signifies that the address
+of the following variable is to obtained.
+
+<P>The following are format specifiers which apply only to <B>printf()</B>
+and <B>scanf()</B>.
+<BR>
+<H4>
+Table 3-1
+</H4>
+
+<TABLE BORDER>
+<CAPTION Align=10>Format Specifiers for printf and scanf</CAPTION> 
+<TR>
+<TH>Type Character</TH><TH>Input Argument</TH><TH>Format of Output</TH>
+</TR>
+<TR>
+<TD>%d</TD><TD>integer</TD><TD>signed decimal int</TD>
+</TR>
+
+<TR>
+
+<TD>%i</TD><TD>integer</TD><TD>signed decimal int</TD>
+</TR>
+
+<TR>
+
+<TD>%o</TD><TD>integer</TD><TD>unsigned octal int</TD>
+</TR>
+
+<TR>
+
+<TD>%u</TD><TD>integer</TD><TD>unsigned decimal int</TD>
+</TR>
+
+<TR>
+
+<TD>%x</TD><TD>integer</TD><TD>unsigned hex int
+ (a,b,c,d,e,f)</TD>
+</TR>
+
+<TR>
+
+<TD>%X</TD><TD>integer</TD><TD>unsigned hex int
+ (A,B,C,D,E,F)</TD>
+</TR>
+
+<TR>
+
+<TD>%f</TD><TD>floating point</TD><TD>signed value of form
+ [-]dddd.dddd</TD>
+</TR>
+
+<TR>
+
+<TD>%e</TD><TD>floating point</TD><TD>signed value of form
+ [-]d.dddd or <B>e</B>[+/-]ddd</TD>
+</TR>
+
+<TR>
+
+<TD>%g</TD><TD>floating point</TD><TD>signed value in either <B>e</B> or <B>f</B> form trailing zeros and the decimal point are printed only if necessary.</TD>
+</TR>
+
+<TR>
+
+<TD>%E</TD><TD>floating point</TD><TD>same as <B>e</B>, but with <B>E</B> for exponent</TD>
+</TR>
+
+<TR>
+
+<TD>%G</TD><TD>floating point</TD><TD>same as <B>g</B>, but with <B>E</B> for exponent if <B>e</B> format</TD>
+</TR>
+
+<TR>
+
+<TD>%c</TD><TD>character</TD><TD>single character</TD>
+</TR>
+
+<TR>
+
+<TD>%s</TD><TD>string pointer</TD><TD>prints characters until a null-terminator is pressed or precision is reached</TD>
+</TR>
+
+<TR>
+
+<TD>%%</TD><TD>none</TD><TD>the <B>%</B> character is printed</TD>
+</TR>
+
+<TR>
+
+<TD>%n</TD><TD>pointer to <B>int</B></TD><TD>stores (in the location pointed to by the input argument) a count of the characters written so far</TD>
+</TR>
+
+<TR>
+
+<TD>%p</TD><TD>pointer</TD><TD>prints the input argument as a memory address</TD>
+</TR>
+
+</TABLE>
+
+<P><B>NOTE:</B>Numerics with <B>scanf()</B> an <B>h</B> or <B>l</B> or <B>L</B> can be used with each of
+the following in order to modify the format; <B>h</B> = short; <B>l</B> and <B>L</B> =
+long.
+
+</PRE>
+
+<H3>
+3.3 Non-formatted Input and Output
+</H3>
+<B>int puts( const char *s );</B>
+
+<P><B>puts()</B> displays a string literal or a stored character string
+on the screen. The function automatically carriage return and line feeds
+at the end of the display. The string can contain escape sequences but
+not format specifiers.
+
+<P>On successful completion, <B>puts()</B> returns a nonnegative value.
+Otherwise, it returns a value of EOF.
+<BR>
+<H4>
+Listing 3-5
+</H4>
+
+<PRE>
+#include "stdio.h"
+int main()
+{
+char name[30];
+
+ printf("\nEnter your name:");
+ gets(name);
+ printf("\nHello ");
+ puts(name);
+ return 0;
+}
+</PRE>
+<B>char *gets( char *s );</B>
+
+<P><B>gets()</B> reads characters from the keyboard and stores them in
+a passed character array. The reading of keyboard is terminated when the
+'\n' (RETURN/ENTER) key is pressed.
+
+<P>On success, <B>gets()</B> returns the string argument <B>s</B>; it returns
+NULL on end-of-file or error.
+<BR>
+<H4>
+Listing 3-6</H4>
+
+<PRE>
+#include "stdio.h"
+int main()
+{
+char name[30];
+
+ printf("\nEnter your name:");
+ gets(name);
+ printf("\nHello %s",name);
+ return 0;
+}
+</PRE>
+<B>int putchar( int c );</B>
+
+<P><B>putchar()</B> writes a character to the stdout data stream.
+
+<P>On success, <B>putchar()</B> returns the character <B>c</B>. On error, <B>putchar()</B>
+returns EOF.
+
+<P><B>int putch( int c );</B>
+
+<P><B>putch()</B> writes the character directly to the screen. This function
+is available only on PC based compilers.
+
+<P>On success, <B>putch</B> returns the characer printed, <B>c</B>. On
+error, it returns EOF.
+<BR>
+<H4>
+Listing 3-7
+</H4>
+
+<PRE>
+#include "stdio.h"
+int main()
+{
+int c;
+
+ c = 'A';
+ putchar(c);
+ putch(c);
+ return 0;
+}
+
+result:
+
+ AA
+</PRE>
+<B>int getchar( void );</B>
+
+<B>int getch( void );</B>
+
+<B>int getche( void );</B>
+
+<P><B>getchar()</B> reads a single character the from the input data stream;
+but does not return the character to the program until the '\n' (RETURN/ENTER)
+key is pressed.
+
+<P><B>getch()</B> reads, without echoing, a single character from the keyboard
+and immediately returns that character to the program; available only on
+PC compilers.
+
+<P><B>getche()</B> reads, with echo, a single character
+from the keyboard and immediately returns that character to the program;
+available only on PC compilers.
+<BR>
+<H4>
+Listing 3-8
+</H4>
+
+<PRE>
+#include "stdio.h"
+int main()
+{
+int ch;
+
+ printf("\nContinue(Y/N)?");
+ ch = getchar();
+ return 0;
+}
+
+The result:
+
+ Continue(Y/N)?Y < RETURN >
+</PRE>
+<P><B>NOTE:</B> The '\n' (RETURN/ENTER) key must be pressed after the response
+in order for the character to be stored in 'ch'. Also, the character pressed
+is automatically displayed on the screen.
+<BR>
+<H4>
+Listing 3-9
+</H4>
+
+<PRE>
+#include "stdio.h"
+int main()
+{
+int ch;
+
+ printf("\nContinue(Y/N)?");
+ ch = getch();
+ return 0;
+}
+
+The result:
+
+ Continue(Y/N)? (Y pressed)
+</PRE>
+<P><B>NOTE:</B> Upon pressing the 'Y' or 'N' key the character is immediately
+stored in 'ch', but the character pressed is not automatically shown on
+the screen. This is available only with PC based compilers.
+<H4>
+Listing 3-10
+</H4>
+
+<PRE>
+#include "stdio.h"
+int main()
+{
+int ch;
+
+ printf("\nContinue(Y/N)?");
+ ch = getche();
+ return 0;
+}
+
+The result:
+
+ Continue(Y/N)?N
+</PRE>
+<P><B>NOTE:</B> Upon pressing the 'Y' or 'N' key the character is immediately
+stored in 'ch' and also is echoed on the screen. This is available only
+with PC based compilers.
+<BR>
+<H3>
+3.4 Predefined Classes in C++
+</H3>
+<P>Like C, C++ has no built-in facilities for I/O. Instead, you must rely
+on a library of functions, for performing I/O. In ANSI C, the I/O functions
+are a part of the standard library, but C++ does not have any standard
+library yet. Of course, you can call the ANSI C library routines in C++,
+but for I/O, C++ release 2.0 and above provides an alternative to printf
+and scanf. C++ comes with the iostream library, which handles I/O through
+a class of objects.
+
+<P>The C++ iostream library is an object-oriented implementation of the
+abstraction of a stream as a flow of bytes from source (producer) to a
+sink (consumer). The iostream library includes input streams (istream class),
+output streams (ostream class), and streams (iostream class) that can handle
+both input and output operations. The istream class provides the functionality
+of scanf and fscanf, and ostream includes capabilities similar to those
+of printf and fprintf. Like the predefined C streams stdin, stdout, and
+stderr, the iostream library includes four predefined streams:
+<BR>
+<PRE>
+  <B>cin</B> is an input stream connected to the standard input. It is analogous to C's stdin.
+
+  <B>cout</B> is an output stream connected to the standard output and is analogous to stdout in C.
+ 
+  <B>cerr</B> is an output stream set up to provide unbuffered output to the standard error device. This is the same as C's stderr.
+
+  <B>clog</B> is like cerr, but it is a fully buffered stream like cin and cout.
+</PRE>
+<P>To use the iostream library, your C++ program must include the header file
+"iostream.h". This file contains the definitions of the classes that
+implement the stream objects and provides the buffering. The file
+"iostream.h" is analogous to "stdio.h" in ANSI C.
+<BR>
+<BR>
+<P>Instead of defining member functions that perform I/O, the iostream library
+provides an operator notation for input as well as output. It uses
+C++'s ability to overload operators and defines &lt;&lt; and >> as the
+output and input operators, respectively.
+<BR>
+<BR>
+<P>When you see the &lt;&lt; and >> operators in use, you will realize their
+appropriateness. For example, consider the following program that
+prints some variables to the cout stream, which is usually connected to
+standard output:
+
+<H4>
+Listing 3-11
+</H4>
+
+<PRE>
+#include "iostream.h"
+
+int main()
+{
+int count = 2;
+double result = 5.4;
+char *id = "Trying out iostream: ";
+
+ cout &lt;&lt; id;
+ cout &lt;&lt; "count = " << count << '\n' ;
+ cout &lt;&lt; "result = " << result << endl;
+ return 0;
+}
+</PRE>
+<P>When you run this program, it prints the following:
+<PRE>
+ Trying out iostream: count = 2
+ result = 5.4
+</PRE>
+<P>You can make three observations from this example:
+<OL Type=1 Start=1> 
+<LI>The <B> << </B> operator is a good choice to represent the output operation, because it points in the direction of data movement that, in this case, is toward the <B>cout</B> stream.
+<LI>You can concatenate multiple <B> << </B> operators in a single line, all reading the same stream.
+<LI>You use the same syntax to print all the basic data
+types on a stream. The <B> << </B> operator automatically
+converts the internal representation of the variable
+into a textual representation. Contrast this with the
+need to use different format strings for printing
+different data types using <B>printf</B>.</PRE>
+</OL>
+<P>Accepting input from the standard input is also equally easy. Here is a
+small example that combines both input and output:
+<BR>
+<H4>
+Listing 3-12
+</H4>
+
+<PRE>
+#include "iostream.h"
+
+int main()
+{
+int count;
+float price;
+char *prompt = "Enter count (int) and unit price (float): ";
+
+ // display the prompt string
+ cout << prompt ;
+ // read from standard input
+ cin >> count >> price;
+ // display total cost
+ cout << count << " at " << price << " will cost: ";
+ cout << (price * count) << endl;
+ return 0;
+}
+</PRE>
+<P>When you run the program and enter the input shown in boldface, the program
+interacts as follows:
+<PRE> 
+Enter count (int) and unit price (float): <B>5 2.5
+</B> 5 at 2.5 will cost: 12.5
+</PRE>
+<P>Ignoring, for the moment, items that you do not recognize, notice how easy
+it is to read values into variables from the <B>cin</B> stream. You simply
+send the data from <B>cin</B> to the variables using the <B>>></B> operator.
+Like the <B> << </B> operator, you can also concatenate multiple <B> >> </B>
+operators. The <B>>></B> operator automatically converts the strings into the
+internal representations of the variables according to their types. The
+simple syntax of input from <B>cin</B> is in sharp contrast with ANSI C's
+rather complicated <B>scanf</B> function, which serves the same purpose
+but needs proper format strings and addresses of variable as arguments.
+Also, <B>cin</B> has the same limitations on input of string type data
+as <B>scanf</B>.
+<BR>
+<H3>
+3.5 Manipulators
+</H3>
+
+<P>Among the new items in the last example, you may have noticed the identifier
+<B>endl</B> in the last one line. This is a special function known as a
+<B>manipulator</B>. Manipulators are functions which are written in such
+a way that by placing a manipulator in the chain of <B>  << </B> operators,
+you can alter the state of the stream. The <B>endl</B> manipulator sends
+a newline to the stream, forcing the cursor to the beginning of a newline.
+
+<P>The following table summarizes some of the manipulators available in
+the <B>iostream</B> package. The manipulators that take arguments are declared
+in the file <B>iomanip.h</B> the rest are in <B>iostream.h</B>
+<BR>
+<H4>
+Table 3-2
+</H4>
+
+<TABLE BORDER>
+<CAPTION Align=top>Available Manipulators in C++</CAPTION>
+<TR>
+<TH>Manipulator</TH><TH>Sample Usage</TH><TH>Effect</TH>
+<TR>
+<TD>dec</TD><TD>cout << dec << intvar; or cin >> dec >> intvar;</TD><TD>Converts integers into decimal digits. Similar to the %d format in C.</TD>
+</TR>
+<TR>
+<TD>hex</TD><TD>cout << hex << intvar; or cin >> hex >> intvar;</TD><TD>Hexadecimal conversion as in ANSI C's %x format.</TD>
+</TR>
+<TR>
+
+<TD>oct</TD><TD>cout << oct << intvar; or cin >> oct >> intvar; </TD><TD> Octal conversion (%o in C).</TD>
+</TR>
+<TR>
+
+<TD>ws</TD><TD>cin >> ws; </TD><TD>Discards whitespace characters in the input stream.</TD>
+</TR>
+<TR>
+
+<TD>endl</TD><TD>cout << endl;</TD><TD>Sends newline to ostream and flushes buffer.</TD>
+</TR>
+<TR>
+
+<TD>ends</TD><TD>cout << ends;</TD><TD>Inserts null character into a string.</TD>
+</TR>
+<TR>
+
+<TD>flush</TD><TD>cout << flush;</TD><TD>Flushes ostream's
+ buffer.</TD>
+</TR>
+<TR>
+
+<TD>resetiosflags(long)</TD><TD>cout << resetiosflags (ios::dec); or cin >> resetiosflags(ios::hex);</TD><TD>Resets the format bits specified by the long integer argument.</TD>
+</TR>
+<TR>
+
+<TD>setbase(int)</TD><TD>cout << setbase(10); or cin >> setbase(8);</TD><TD>Sets base of conversion to integer argument must be 0, 8, 10, or 16). Zero sets base to the default.</TD>
+</TR>
+<TR>
+
+<TD>setfill(int)</TD><TD>cout << setfill('.'); or cin >> setfill(' ');</TD><TD>Sets the fill character used to pad fields (width comes from <B>setw</B>).</TD>
+</TR>
+<TR>
+
+<TD>setiosflags(long)</TD><TD>cout << setiosflags(ios::dec);or cin >> setiosflags(ios::hex); </TD><TD>Sets the format bits specified by the long integer
+ argument.</TD>
+</TR>
+<TR>
+
+<TD>setprecision(int)</TD><TD>cout << setprecision(6); or cin >> setprecision(15);</TD><TD>Sets the precision of floating-point conversions to the specified number of digits.</TD>
+</TR>
+<TR>
+
+<TD>setw(int)</TD><TD>cout << setw(6) << var; or cin >> setw(24) >> buf;</TD><TD>Sets the width of a field to the
+specified number of characters.</TD>
+</TR>
+
+</TABLE>
+
+<H3>
+3.6 Formatted I/O
+</H3>
+
+<P>You can use the manipulators for some simple formatted I/O. Formatting
+refers to the process of converting to and from the internal binary representation
+of a variable and its character string representation. For example, if
+a 16-bit integer variable holds the bit pattern 0000 0000 0110 0100, its
+character string representation in the decimal number system is 100 and
+64 in hexadecimal. If the base of conversion is octal, the representation
+will be 144. You can display all three forms on separate lines using the
+following output statements:
+<BR>
+<H4>
+Listing 3-13
+</H4>
+
+<PRE>
+#include "iostream.h"
+
+int main()
+{
+int i = 100;
+
+ cout << dec << i << endl;
+ cout << hex << i << endl;
+ cout << oct << i << endl;
+ return 0;
+}
+
+This produces the following output:
+
+ 100
+ 64
+ 144
+</PRE>
+<P>What if you want to use a fixed field width of six characters to display
+each value? You can do this by using the <B>setw</B> manipulators as follows:
+<BR>
+<H4>
+Listing 3-14
+</H4>
+
+<PRE>
+#include "iostream.h"
+#include "iomanip.h"
+
+int main()
+{
+int i = 100;
+
+ cout << setw(6) << dec << i << endl;
+ cout << setw(6) << hex << i << endl;
+ cout << setw(6) << oct << i << endl;
+ return 0;
+}
+
+This produces the following output:
+
+ 100
+ 64
+ 144
+</PRE>
+<P>Here each variable is displayed in a six-character field aligned at the
+right and padded with blanks at the left. You can change both the padding
+and the alignment. To change the padding character, you can use the <B>setfill</B>
+manipulator. For example, just before the <B>cout</B> statements just shown,
+insert the following line:
+<BR>
+<H4>
+Listing 3-15
+</H4>
+
+<PRE>
+#include "iostream.h"
+#include "iomanip.h"
+
+int main()
+{
+int i = 100;
+
+ cout << setfill('.');
+ cout << setw(6) << dec << i << endl;
+ cout << setw(6) << hex << i << endl;
+ cout << setw(6) << oct << i << endl;
+ return 0;
+}
+
+This produces the following output:
+
+ ...100
+ ....64
+ ...144
+</PRE>
+<P>The default alignment of fixed-width output fields is to pad on the left,
+resulting in right-justified output. The justification information is stored
+in a bit pattern called the <B>format bits</B> in a class named <B>ios</B>,
+which forms the basis of all stream classes. You can set or reset specific
+bits by using the <B>setiosflags</B> and <B>resetiosflags</B> manipulators,
+respectively. Following is a sample use of these manipulators:
+<BR>
+<H4>
+Listing 3-16
+</H4>
+
+<PRE>
+#include "iostream.h"
+#include "iomanip.h"
+
+int main()
+{
+int i = 100;
+
+ cout << setfill('.');
+ // left-justified labels followed by
+ // right-justified values
+ cout << setiosflags(ios::left); // left justification
+ cout << setw(20) << "Decimal";
+ cout << resetiosflags(ios::left); // turn off left just
+ cout << setw(6) << dec << i << endl;
+
+ cout << setiosflags(ios::left);
+ cout << setw(20) << "Hexadecimal";
+ cout << resetiosflags(ios::left);
+ cout << setw(6) << hex << i << endl;
+
+ cout << setiosflags(ios::left);
+ cout << setw(20) << "Octal";
+ cout << resetiosflags(ios::left);
+ cout << setw(6) << oct << i << endl;
+ return 0;
+}
+
+This produces the following output:
+
+ Decimal................100
+ Hexadecimal.............64
+ Octal..................144
+</PRE>
+<P>This output amply illustrates how the <B>setiosflags</B> and <B>resetiosflags</B>
+manipulators work and how the they should be used. All you need to know
+are the names of the enumerated list of formatting flags so that you can
+use them as arguments to the <B>setiosflags</B> and <B>resetiosflags</B>
+manipulators.
+
+<P>To use any of the format flags in the following table, insert the manipulator
+<B>setiosflags</B> with the name of the flag as the argument. Use <B>resetiosflags</B>
+with the same argument to revert to the format state before you use the
+<B>setiosflags</B> manipulator.
+<BR>
+<H4>
+Table 3-3:
+</H4>
+
+<TABLE BORDER>
+<CAPTION Align=top>Additional Manipulators</CAPTION>
+<TR>
+<TH>Name of Flag</TH><TH>Meaning When Flag Is Set</TH>
+</TR>
+<TR>
+<TD>ios::skipws</TD><TD>Skips whitespace on input.</TD>
+</TR>
+
+<TR>
+<TD>ios::left</TD><TD>Left justifies output within the specified width of the field</TD>
+</TR>
+
+<TR>
+<TD>ios::right</TD><TD>Right justifies output.</TD>
+</TR>
+
+<TR>
+<TD>ios::scientific</TD><TD>Uses scientific notation for floating point numbers (such as -1.23e+02).</TD>
+</TR>
+
+
+<TR>
+<TD>ios::fixed</TD><TD>Uses decimal notation for floating-point numbers (such as -123.45).</TD>
+</TR>
+
+
+<TR>
+<TD>ios::dec</TD><TD>Uses decimal notation for integers.</TD>
+</TR>
+
+<TR>
+<TD>ios::hex</TD><TD>Uses hexadecimal notation for integers.</TD>
+</TR>
+
+
+<TR>
+<TD>ios::oct</TD><TD>Uses octal notation for integers.</TD>
+</TR>
+
+<TR>
+<TD>ios::uppercase</TD><TD>Uses uppercase letters in output (such as F4 in hexadecimal, 1.23E+02).</TD>
+</TR>
+
+
+<TR>
+<TD>ios::showbase</TD><TD>Indicates the base of the number system in the output (a <B>0x</B> prefix for hexadecimal and a <B>0</B> prefix for octal).</TD>
+</TR>
+
+<TR>
+<TD>ios::showpoint</TD><TD>Includes a decimal point for floating-point output (for example, -123.) .</TD>
+</TR>
+
+
+<TR>
+<TD>ios::showpos</TD><TD>Shows a positive sign when display positive values.</TD>
+</TR>
+
+
+<TR>
+<TD>ios::internal</TD><TD>Padding after sign or base indicator</TD>
+</TR>
+
+
+<TR>
+<TD>ios::unitbuf</TD><TD>Flush all streams after insertion</TD>
+</TR>
+
+
+<TR>
+<TD>ios::stdio</TD><TD>Flush stdout, stderr after insertion</TD>
+</TR>
+
+</TABLE>
+<P>In addition to the above method of manipulating output and input, another
+method can be used which involves accessing methods (functions) of the
+<B>cout</B> and <B>cin</B> objects of the <B>iostream</B> class. This manipulation
+or formatting can be done with the following set of functions:
+<BR>
+<H4>
+Table 3-4:
+</H4>
+
+<TABLE BORDER>
+<CAPTION Align=top>Functions Instead of Manipulators</CAPTION>
+<TR>
+<TH>Function Name</TH><TH>Purpose</TH
+</TR>
+<TR>
+<TD>setf</TD><TD>Set a formatting flag</TD>
+</TR>
+
+<TR>
+
+<TD>unsetf</TD><TD>Undo a flag set ty setf</TD>
+</TR>
+
+<TR>
+
+<TD>width</TD><TD>Read/set the field width</TD>
+</TR>
+
+<TR>
+
+<TD>fill</TD><TD>read/set the padding character</TD>
+</TR>
+
+<TR>
+
+<TD>precision</TD><TD>Read/set digits of precision</TD>
+</TR>
+
+</TABLE>
+
+<H4>
+Listing 3-17
+</H4>
+
+<PRE>
+#include "iostream.h"
+
+int main()
+{
+ cout.setf(ios::right|ios::showpoint|ios::fixed);
+ cout.precision(2);
+ cout.width(20);
+ cout << 500000.0 << endl;
+ return 0;
+}
+</PRE>
+<P>The correspondence between <B>iostream.h</B> methods (functions) and <B>iomanip.h</B>
+manipulators is as follows:
+<BR>
+<H4>
+Table 3-5:
+</H4>
+
+<TABLE BORDER>
+<CAPTION Align=top>Correspondence between iostream and iomanip</CAPTION>
+<TR>
+<TH>iomanip.h</TH><TH>iostream.h</TH>
+</TR>
+<TR>
+
+<TD>setiosflags(...)</TD><TD>setf(...)</TD>
+</TR>
+<TR>
+
+<TD>resetiosflags(...)</TD><TD>unsetf(...)</TD>
+</TR>
+<TR>
+
+<TD>setbase(10)</TD><TD>setf(ios::dec)</TD>
+</TR>
+<TR>
+
+<TD>setbase(8)</TD><TD>setf(ios::oct)</TD>
+</TR>
+<TR>
+
+<TD>setbase(16)</TD><TD>setf(ios::hex)</TD>
+</TR>
+<TR>
+
+<TD>setfill('.')</TD><TD>fill('.')</TD>
+</TR>
+<TR>
+
+<TD>setprecision(2)</TD><TD>precision(2)</TD>
+</TR>
+<TR>
+
+<TD>setw(20)</TD><TD>width(20)</TD>
+</TR>
+
+</TABLE>
+
+</body>
+</html>

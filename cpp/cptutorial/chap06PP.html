@@ -1,0 +1,239 @@
+<HTML>
+<HEAD>
+	<TITLE>Chapter 6: Programming Projects</TITLE>
+</HEAD>
+<BODY>
+<A NAME="chap06PP.html">
+<H1>
+Chapter 6: Programming Projects
+</H1>
+</A>
+<PRE>
+ 1. Write  a  program that allows the user to do a payroll 
+    listing on any number of employees, up to a maximum of 
+    20, for a one week period.  <B>This program must be 
+    written using functions</B>.  The program is to be 
+    broken into various tasks, each task will be coded as a 
+    function.  Each function will be passed arguments and
+    possibly will return a value back from the function.
+
+    When the user indicates he/she wishes to stop the input 
+    of employee data, the program will display totals for 
+    the computed values.
+
+    The following shows a sample run of the program with 
+    user inputs in <B>boldface</B>.
+
+    ><B>payroll</B>
+    BOJ Payroll v2.0
+
+    Enter Employee Number                   : <B>123-45-6789</B>
+    Enter Regular Hours Worked              : <B>40</B>
+    Enter Overtime Hours Worked             : <B>0</B>
+    Enter Hourly Pay Rate                   : <B>15.00</B>
+    Enter Marital Status( M or S )          : <B>M</B>
+    Enter number of Exemptions taken(0-4)   : <B>2</B>
+    Computed Gross Pay                      : $600.00
+    Computed Federal Tax                    :-$126.90
+    Computed State Tax                      :-$ 63.45
+						    ---------------
+    Computed Net Pay                        : $409.65
+
+    Do you wish to do another(Y/N)? <B>Y</B>
+
+    Enter Employee Number                   : <B>234-56-7890</B>
+    Enter Regular Hours Worked              : <B>40</B>
+    Enter Overtime Hours Worked             : <B>0</B>
+    Enter Hourly Pay Rate                   : <B>20.00</B>
+    Enter Marital Status( M or S )          : <B>S</B>
+    Enter number of Exemptions taken(0-4)   : <B>0</B>
+    Computed Gross Pay                      : $800.00
+    Computed Federal Tax                    :-$217.50
+    Computed State Tax                      :-$108.00
+						    ---------------
+    Computed Net Pay                        : $474.50
+
+    Do you wish to do another(Y/N)? <B>N</B>
+
+		    Employee Payroll Summary
+
+			    Gross     Federal   State     Net
+			    Pay       Tax       Tax       Pay
+			    --------- --------- --------- ----------
+    Totals         $1400.00  $ 471.30  $ 171.45  $ 933.65
+
+    Employee  Number  is  declared  as a variable and 
+    assigned a value by the user as each employee's data is 
+    processed. Character Data.
+
+    Regular Hours Worked is declared as a variable and is  
+    input by the user as each employee's data is processed. 
+    Integer Data. Not to exceed 40 hours.
+
+    Overtime  Hours  Worked  is  declared  as a variable 
+    and is input by the user as each employee's data is 
+    processed. Integer Data.
+
+    Hourly Pay Rate is declared as a variable and is input  
+    by the user as each employee's data is processed. Float 
+    Data.  Not to exceed 55.00 dollars per hour.
+
+    Marital Status is declared as a variable and is input 
+    by the user as each employee's data is processed.  Only 
+    M or S may be input.
+
+    Exemptions is declared as a variable and is input by 
+    the user as each employee's data is processed.   This 
+    is the number of tax exemptions the employee is taking.   
+    In this  program,  the only allowable values for 
+    exemptions is 0 thru 4. Integer Data.
+
+    Weekly  Gross Pay is a computed value derived from 
+    Regular Hours Worked  multiplied  by  Hourly  Pay  Rate  
+    plus  Overtime  Hours Worked multiplied by the product 
+    of Hourly Pay Rate multiplied by 1.5.
+
+    Deductions  is  a  computed value to indicate the 
+    amount of tax deductions, both federal and state, 
+    needed to be subtracted  from the Adjusted  Gross  Pay.   
+    Adjusted  Gross  Pay is computed by taking the number 
+    of Exemptions an employee has and multiplying that by
+    $13.50. This  amount  is  then  subtracted from the
+    Weekly Gross Pay amount to give Adjusted Gross Pay.  
+    Adjusted Gross Pay is then used to determine the amount 
+    of federal tax owed and the amount of state tax owed.   
+    The following indicates how to calculate the federal 
+    and state tax amounts based on the Adjusted Gross Pay.
+
+For Married Employees:
+
+									    Of Amount
+Adjusted Gross Pay  Federal       State          Over
+------------------  ----------    -----------   ---------------
+$0.00    - $100      10%           5%            $50.00
+$101     - $300      $20.00 + 20%  $10.00 + 10%  $150.00
+$301     - $600      $60.00 + 30%  $30.00 + 15%  $350.00
+$601     - $9999     $180.00 + 50% $90.00 + 25%  $650.00
+
+For Single Employees:
+
+									    Of Amount
+Adjusted Gross Pay  Federal       State          Over
+------------------  ----------    -----------   ---------------
+$0.00    - $100      10%           5%            $50.00
+$101     - $300      $20.00 + 10%  $10.00 + 5%   $150.00
+$301     - $600      $60.00 + 15%  $30.00 + 8%   $350.00
+$601     - $9999     $180.00 + 25% $90.00 + 12%  $650.00
+
+   Weekly Net Pay a computed amount showing  the  take  
+   home  or net pay  for the employee.  Weekly Net Pay is 
+   computed by subtracting Deductions from Weekly Gross 
+   Pay.
+
+   When all employee's payroll data has been processed, 
+   display  the totals for gross pay, state and federal 
+   withholding and net pay.
+
+ 2. Write a program that acts as a simple "printing" 
+    calculator. The program should allow the user to type 
+    in expressions of the form
+
+    number    operator
+
+    The following operators should be recognized by the 
+    program:
+
+    +    -    *    /    %    S    E
+
+    The S operator tells the program to set the 
+    "accumulator" to the typed-in number.  The E operator 
+    tells the program that execution is to end.  The 
+    arithmetic operations are performed on the contents of 
+    the accumulator with the number that was keyed in
+    acting as the second operand.  The following is a 
+    "sample run" showing how the program should operate.  
+    The user input is in <B>boldface<B>.
+
+    ><B>calc</B>
+    Begin Calculations
+    <B>10 S</B>                /* set accumulator to 10 */
+    = 10.000000         /* contents of accumulator */
+    <B>2 /</B>                 /* divide by 2 */
+    = 5.000000          /* contents of accumulator */
+    <B>55 -</B>                /* subtract 55 */
+    = -50.000000        /* contents of accumulator */
+    <B>2 %</B>                 /* modulo divide by 2 */
+    = 2.000000          /* contents of accumulator */
+    <B>100.25 S</B>            /* set accumulator to 100.25 */
+    = 100.250000        /* contents of accumulator */
+    <B>4 *</B>                 /* multiply by 4 */
+    = 401.000000        /* contents of accumulator */
+    <B>0 E</B>                 /* end of program */
+    = 401.000000        /* contents of accumulator */
+    End of Calculations.
+
+ 3. Write a program that will update a bank balance.  A 
+    sample run is below.  The user's response is in 
+    <B>boldface</B>.
+
+    Bank Account Program
+    --------------------
+
+    Enter the old balance: <B>1234.50</B>
+    Enter the transactions now. Enter an <B>F</B> for the transaction
+    type when you are finished.
+    Transaction Type (D=deposit, W=withdrawal, F=finished): <B>D</B>
+    Amount: <B>568.34</B>
+    Transaction Type (D=deposit, W=withdrawal, F=finished): <B>W</B>
+    Amount: <B>25.68</B>
+    Transaction Type (D=deposit, W=withdrawal, F=finished): <B>W</B>
+    Amount: <B>167.40</B>
+    Transaction Type (D=deposit, W=withdrawal, F=finished): <B>F</B>
+    Your ending balance is $1609.76
+    End of Program
+
+ 4. The sequence of Fibonacci numbers is defined 
+    recursively by 
+
+    f(0) = 0,      f(1) = 1, f(i+1) = f(i) + f(i+-1)
+
+    for i = 1, 2, ..
+
+    Except for f(0) and f(1), every element in the sequence 
+    is the sum of the previous two elements.  It is easy to 
+    write down the first few elements of the sequence.
+
+    0, 1, 1, 2, 3, 5, 8, 13, 21, 34, 55, 89, 144, 233, ...
+
+    Fibonacci numbers have lots of uses and many 
+    interesting properties.  One of the properties has to 
+    do with the Fibonacci quotients defined by
+
+    q(i) = f(i) / f(i-1)     for i = 2, 3, ...
+
+    It can be show that the sequence of quotients converges 
+    to the golden mean, which is the real number 
+    (1+ sqrt(5)) / 2.  We want to write a program that 
+    prints Fibonacci numbers and quotients.  If <B>f1</B> 
+    contains the value of the current Fibonacci number and 
+    <B>f0</B> contains the value of the previous
+    Fibonacci number, then we can
+
+    1.   Save the value of <B>f1</B> (the current Fibonacci 
+         number in a temporary.
+
+    2.   Add <B>f0</B> and <B>f1</B> and store the value in 
+         <B>f1</B>, the new Fibonacci number.
+
+    3.   Store the value of the temporary in <B>f0</B> so 
+         that <B>f0</B> will contain the previous Fibonacci 
+         number.
+
+    4.   Print, and then repeat this process.
+
+    Because the Fibonacci numbers grow large very quickly, 
+    we are not able to compute many of them.
+
+</PRE>
+</BODY>
+</HTML>

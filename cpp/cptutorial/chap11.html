@@ -1,0 +1,909 @@
+<HTML>
+<HEAD>
+   <META HTTP-EQUIV="Content-Type" CONTENT="text/html; charset=iso-8859-1">
+   <TITLE>C/C++ Programming</TITLE>
+</HEAD>
+<BODY>
+
+<A NAME="chap11.html">
+<H1>
+Chapter 11 Operators as Functions
+</H1>
+</A>
+
+<P>
+When a class is designed a new data type is being added to the C++ language.  The ability to overload a C++ operator allows the programmer to define the meaning of operators relative to the class being defined.  Operators are overloaded and selected based on the signature-matching algorithm for finding overloaded 
+functions.  The keyword <B>operator</B> is used to define a type conversion member function.  It is also used to overload the built-in C operators.  Just as a function name can be given a variety of meanings, with each meaning being different depending upon the arguments being passed, so can an operator, such as <B>+</B>, 
+be given additional meanings.  Overloading operators allows infix expressions of both ADTs and built-in types to be written.  It is an important notational convenience and in many instances leads to shorter and more readable programs. 
+
+<H3>
+11.1 Defining an Overload Operator
+</H3>
+<P>
+Defining operators for a class is easy once you know how the application of an operator is translated to a function call.  For a unary operator such as <B>&</B>, when you write the following:
+<PRE>
+    &X
+</PRE>
+where <B>X</B> is an instance of some class, the C++ compiler applies the operator by calling this function:
+<PRE>
+    X.operator&()
+</PRE>
+The compiler automatically passes a pointer to the class instance to the function.  For binary operators such as <B>+</B>, an expression such as this:
+<PRE>
+    X + Y
+</PRE>
+where <B>X</B> and <B>Y</B> are class instances, the compiler calls the function:
+<PRE>
+    X.operator+(Y)
+</PRE>
+As you can see, the C++ compiler reduces the application of operators to function calls.  Thus, you can overload an operator by defining a function whose name begins with the keyword <B>operator</B> followed by the symbolic notation of that operator.
+
+<H3>
+11.2 Arguments to Operator Functions
+</H3>
+Like all member functions, operator functions receive a pointer to the class instance in the hidden argument named this.  Because this argument is implicit, unary operator functions are defined with no arguments at all.  Binary operator functions that are members of the class take a single argument, which is the right-
+hand side of the operator expression.  The ternary operator, <B>?:</B>,  cannot be overloaded.
+
+<P>However, you can define an operator function as a friend instead of as a member function of the class.  By defining an operator overload function as a friend, the class instance pointer is not passed to the function.  There are times when the programmer needs to define friend operator functions.  When declared as a friend, the operator function requires all arguments explicitly.  Thus, to declare <B>operator+</B> as a friend function of <B>class X</B>, the following would be written: 
+<PRE>
+    friend X operator+(X&, Y&);   // assume X is a class
+</PRE>
+and thereafter, to evaluate the expression <B>x1 + x2</B> for two instances of <B>class X</B>, the C++ compiler will call the function <B>operator+(x1, x2)</B>.
+
+<H3>
+11.3 Operators That Can Be Overloaded
+</H3>
+<P>All C++ operators can be overloaded except for the following:
+<PRE>
+Member access operator                 x.y
+Dereferencing pointer to member        x.*y
+Scope resolution operator              x::y
+Conditional operator                   x?y:z
+</PRE>
+Those that can be overloaded are:
+<PRE>
++   -    *    /    %    ^    &    |
+-   !    ,    =    <    >    <=   >=
+++  --   <<   >>   ==   !=   &&   ||
++=  -=   /=   %=   ^=   &=   |=   <<=
+>>= []   ()   ->   new  delete
+</PRE>
+<P>Although C++ enables the programmer to redefine the meaning of most of the built-in operator symbols for a class, there is no ability to change the precedence rules that dictate the order in which operators are evaluated.  C++ operators have the same precedence as those of their ANSI C counterparts.  Even if, for 
+some class, the programmer were to define <B>operators +</B> and <B>*</B> to have entirely different meanings from addition and multiplication, in an expression such as this: 
+<PRE>
+    a + b * c      // a, b, c are some class instances
+</PRE>
+the C++ compiler will still invoke the <B>operator*</B> function to evaluate <B>b * c</B> before calling <B>operator+</B>.
+
+<P>The following tips will help in designing classes with overloaded operators (assume that <B>a</B> and <B>b</B> are instances of appropriate class types). 
+<OL>
+<LI>C++ does not "understand" the meaning of an overloaded operator.  It's the programmer's responsibility to provide meaningful overloaded functions. 
+<LI>C++ is not able to derive complex operators from simple ones.  For instance, if you define overloaded operator functions <B>operator*</B> and <B>operator=</B>, C++ cannot evaluate the expression <B>a *= b</B> correctly. 
+<LI>The programmer may never change the syntax of an overloaded operator.  Operators that are binary must remain binary.  Unary operators must remain unary. 
+<LI>The programmer cannot invent new operators for use in expressions.  Only those operators listed for the syntax of the language can be overloaded.  However, the programmer can always write functions for special cases.  
+<LI>The programmer may overload the operators <B>++</B> and <B>--</B>.  
+</OL>
+
+<P>As an example of operator overloading, consider the <B>+</B> operator, the binary version, for the <B>CString</B> class.  A good interpretation of this operator for the <B>CString</B> class would be to concatenate two <B>CString</B> objects.  A typical use of the <B>+</B> operator for <B>CString</B> might be this: 
+<PRE>
+    CString s1("This "), s2("and that"), s3;
+    s3 = s1+s2;
+</PRE>
+<P>The programmer can get this functionality by defining the following function as a member of the CString class; 
+<H4>
+Fig. 11-1
+</H4>
+<PRE>
+// *********************************************************
+//   overload +
+//   Member function to concatenate two String objects
+CString& CString::operator+( const CString& str )
+{
+    size_t lgth = len + str.len;
+    char *t = new char[lgth + 1];
+    strcpy( t, s );
+    strcat( t, str.s );
+    return CString(t);
+}
+</PRE>
+<P>Because this version of the <B>operator+</B> is a member function of the <B>CString</B> class, it takes only one argument, a reference to the <B>CString</B> on the right-hand side of the <B>+</B> operator.  The function 
+returns a new <B>CString</B> object that is a concatenation of the two <B>CString</B> items that are being added. 
+
+<P>Although the member function <B>operator+</B> works well when adding <B>CString</B> items, it cannot handle another type of use for the operator.  Because a <B>CString</B> is meant to model a dynamic array of 
+characters, it is natural to allow the use of the operator in expressions such as this: 
+<PRE>
+    CString str = "World!".
+    CString s2 = "Hello, "+ str;    //   expecting "Hello, World!"
+</PRE>
+<P>In this case, the C++ compiler will interpret the right-hand side of the expression as the following:
+<PRE>
+    "Hello".operator+(str)
+</PRE>
+This is an error, because "Hello" is not an instance of a class and therefore has no member <B>operator+</B> function that can be applied to "Hello".  One might think that a solution would be to 
+convert "Hello" to a <B>CString</B> and then apply the <B>operator+</B> function of the <B>CString</B> class.  But, this does not happen because the C++ compiler does not automatically convert the left-hand operand of any member operator functions.  However, if the programmer were to define a nonmember friend <B>operator+</B> function 
+in the <B>CString</B> class: 
+<PRE>
+    friend CString operator+(const char *s1, const String& s2);
+</PRE>
+<P>the compiler would convert the expression call this function with the pointer to "Hello" as the first argument and str as the second argument.  This would evaluate to the following function call: 
+<PRE>
+    operator+("Hello", str)
+</PRE>
+<P>The definition of the friend <B>operator+</B> function is similar to the member function, except that it does not take an implied pointer to the current instance of the class as the first argument, and the body of the function has to refer to each argument explicitly.  Following is a definition of the function: 
+<H4>
+Fig. 11-2
+</H4>
+<PRE>
+//***********************************************************
+// CString concatenation operator, declared as "friend"
+CString operator+(const char *a, CString &b ) // overload
+{
+CString temp;
+    strcpy( temp.s, a );
+    if( (strlen(a) + b.len ) < MAXLEN )
+    {
+         strcat( temp.s, b.s );
+         temp.len = strlen( temp.s );
+    }
+    else
+         cerr << "Max length exceeded in concatenation.\n";
+    return temp;
+}
+</PRE>
+<H3>
+11.4 Copying Class Instances
+</H3>
+<P>When copying one class instance to another instance of a compatible type, the results can be unexpected.   C++ makes copies of instances not only in assignment expressions but at other times.  So you must be aware of the consequences of copying class instances, even if you do not explicitly assign them with 
+the <B>=</B> operator.  There are four times when a copy of a class instance will be made:
+<OL>
+<LI>When one instance is used to initialize a newly defined instance of the same class.
+<LI>When an instance is passed to a function's value parameter of the class type.
+<LI>When a function returns a class instance (not a reference or pointer to the class).
+<LI>When a statement assigns one instance to another.
+</OL>
+<P>The first three of these cases initialize new copies of class instances using the value of an existing instance.  The fourth case assigns the value of an existing instance to another instance that was previously defined.  In all cases, the result is an object that contains copies of the data fields of another object.  
+
+<P>After making such copies, all may seem well, but trouble lurks unseen when the class instances contain pointer fields that address variables allocated space on the heap.  Problems can also arise when creating copies of instances that contain fields of other class types, which may contain their own pointer fields. If 
+two or more pointers happen to address the same location in memory, deleting one of those pointers will cause the others to address invalid data.  Worse, deleting the same space more than once can corrupt the heap and cause a major bug.  Because classes often inherit properties of many other classes, a simple 
+assignment or function call might create dozens of duplicate pointers.  And if those pointers address instances were allocated by new, class destructors might deallocate the same memory spaces multiple times, which will almost always corrupt the heap.  To avoid such problems, the programmer should always provide a copy constructor for any class that includes dynamically allocated members. 
+<H4>
+Fig. 11-3
+</H4>
+<PRE>
+// *********************************************************
+// CString(const String&)
+// Create a new CString as a copy of another CString
+// This is called the "copy constructor"
+CString::CString( const CString& str )
+{
+    len = s.len;
+    maxlen = s.maxlen;
+    s = new char[maxlen];
+    strcpy( s, str.s );
+}
+</PRE>
+<H3>
+11.5 Overloading the Input and Output Operators
+</H3>
+
+<P>When the programmer starts to define his/her own classes such as the CString class, he/she might want to overload the definitions of the <B><<</B> and <B>>></B> operators so that they work with the class.  For example, once the <B>>></B> operator is overloaded, it is possible to read characters from an input stream into a <B>CString</B> object by writing: 
+<PRE>
+    CString user_input;
+    cin >> user_input;  //   accept user's input
+</PRE>
+<P>Similarly, to display a <B>CString</B>, the programmer would write the following: 
+<PRE>
+    CString greetings = "Hello, World!";
+    cout << greetings << endl;
+</PRE>
+<H3>
+11.5.1 Input Operator
+</H3>
+<P>The stream extraction operator, <B>>></B>, is easy to implement.  The following version assumes a maximum string length of 256 characters including the null byte and uses the get function of the input stream to read in the characters into an internal array.  Then it creates a new <B>CString</B> object from that character array and returns the <B>CString</B>.
+<H3>
+Fig. 11-4
+</H3>
+<PRE>
+//***********************************************************
+// Stream extraction operator for CString class
+istream& operator>>(istream& is, CString& str)
+{
+char buf[MAXLEN];
+
+    if( is.get(buf,MAXLEN) )
+         str = String( buf );
+    return is;
+}
+</PRE>
+<H3>
+11.5.2 Output Operator
+</H3>
+<P>To overload the insertion operator, <B><<</B>, a public member function is needed for the class that can handle the actual output.  For the <B>CString</B> class, a print function is defined that performs the output as follows: 
+<H4>
+Fig. 11-5
+</H4>
+<PRE>
+//***********************************************************
+// Output the CString to the specified output stream
+void CString::print( ostream& os ) const
+{
+     os << s ;
+}
+</PRE>
+<P>Once the print function is defined, you can overload the <B><<</B> operator for a <B>CString</B> argument as follows:
+<H4>
+Fig. 11-6 
+</H4>
+<PRE>
+//***********************************************************
+// Stream insertion operator for CString class
+ostream& operator<<(ostream& os, String& str)
+{
+    str.print( os );
+    return os;
+}
+</PRE>
+<P>As can be seen, this operator function does its work by calling the member function named print within the <B>Cstring</B> class.  Note that the <B>ostream</B> class declares <B>operator<<</B> as a <B>friend</B> function. 
+<H3>
+11.6 Templates
+</H3>
+<P>Templates, also called generics or parameterized types, allow the programmer to construct a family of related functions or classes.  
+<H3>
+11.6.1 Function Templates
+</H3>
+<P>Consider a function <B>max(x,y)</B> that returns the larger of its two arguments, <B>x</B> and <B>y</B> can be of any type that has the ability to be ordered.  But, since C++ is a strongly typed language, it expects the types of the parameters <B>x</B> and <B>y</B> to be declared at compile time.  Without using <B>templates</B>, many overloaded versions of <B>max()</B> are required, one for each data type to be supported, even though the code for each version is essentially identical.  Each version compares the arguments and returns the larger.  For example,
+<PRE>
+    int max( int x, int y )
+    {
+         return ( x < y) ? x : y ;
+    }
+
+    long max( long x, long y )
+    {
+         return ( x > y) ? x : y;
+    }
+</PRE>
+One way around this problem is to use a macro:
+<PRE>
+    #define max(x,y)    ((x>y) ? x : y )
+</PRE>
+<P>However, using the <B>#define</B> circumvents the type-checking mechanism that makes C++ such an improvement over C.  In fact, this use of macros is almost obsolete in C++.  Clearly, the intent of <B>max(x,y)</B> is to compare compatible types.  Unfortunately, using the macro allows a comparison between an <B>int</B> and a <B>struct</B>, which are incompatible.
+
+<P>Another problem with the macro approach is that substitution will be performed where it is not desired:
+<PRE>
+    class Foo
+    {
+    public:
+         int max(int, int);  // syntax error; this gets expanded
+
+    };
+</PRE>
+<P>By using a <B>template</B> instead, the programmer can define a pattern for a family of related overloaded functions by letting the data type itself be a parameter: 
+<PRE>
+    template &lt;class T&gt;
+    T max( T x, T y )
+    {
+         return ( x &gt; y ) ? x : y ;
+    }
+</PRE>
+<P>The data type is represented by the <B>template</B> argument: <B>&lt;class T&gt;</B>.    When used in an application, the compiler generated the appropriate function according to the data type actually used in the call:
+<PRE>
+    int i;
+    Myclass a, b;
+
+    int j = max(i,0);        // arguments are integers
+
+    Myclass m = max(a,b);    // arguments are type Myclass
+</PRE>
+<P>Any data type (not just a class) can be used for <B>&lt;class T&gt;</B>.  The compiler takes care of calling the appropriate <B>operator>()</B>, so that the call to max can be used with arguments of any type for 
+which <B>operator>()</B> is defined. 
+
+<H3>
+11.6.2 Class Templates
+</H3>
+<P>A class <B>template</B> (also called a generic class or class generator) allows the programmer to define a pattern for class definitions.  Generic container classes are good examples.  Consider the following example of a stack class. Whether the stack is for integers, character strings or of any other type, the basic operations performed on the type are the same (insert, delete, index, and so on).  With the element type treated as a type parameter to the class, the system will generate type-safe class definitions on the fly: 
+<H4>
+Listing 11-1
+</H4>
+<PRE>
+//  *************************************************************
+//  Interface File      :    CStack.h
+//  Implementation File :    CStack.cpp
+//  Description         :    A template class that implements
+//                      :    a stack.
+//  *************************************************************
+// #pragma interface
+
+#ifndef  _CSTACK_H
+#define  _CSTACK_H
+
+#include &lt;string.h&gt;
+
+// #ifndef  _BOOL
+// #define  _BOOL
+
+// enum bool { false, true };
+
+// #endif
+
+template&lt;class T&gt;
+class CStack
+{
+protected:
+    //
+    //   Structure that describes each Node of the linked list
+    //
+    struct StackNode
+    {
+         T nodeData;
+         StackNode *next;
+    };
+
+    unsigned _cnt;      // count of nodes in the stack
+    bool _newErr;       // error indicator for new
+    StackNode *_tos;    // pointer to the top of the stack
+    CStack<T>& copy( CStack<T>& );
+
+public:
+    //
+    //   Constructors
+    //
+    CStack();
+    //
+    //   Destructors
+    //
+    ~CStack();
+    //
+    //   Accessors
+    //
+    bool isempty() const
+    {
+         return ( _cnt == 0 ) ? true : false;
+    }
+    bool getNewErr() const 
+    {
+         return _newErr;
+    }
+    //
+    //   Mutators
+    //
+    void push( T );
+    bool pop( T& );
+    void clean( void );
+    CStack<T>& operator=( CStack<T>& item )
+    {
+         copy( item );
+         return *this;
+    }
+};
+#endif
+
+//  *************************************************************
+//  Interface File      :    CStack.h
+//  Implementation File :    CStack.h
+//  Description         :    Contructs a template class for a 
+//                      :    stack;
+//  *************************************************************
+// #pragma implementation
+
+// #include "cstack.h"
+
+template<class T>
+CStack<T>::CStack()
+{
+    _cnt = 0;
+    _newErr = false;
+    _tos = NULL;
+}
+
+template<class T>
+CStack<T>::~CStack()
+{
+    clean();
+}
+
+template<class T>
+CStack<T>& CStack<T>::copy( CStack<T>& item )
+{
+StackNode *current, *nextNode, *temp;
+    //
+    //   clear the stack if not already empty
+    //
+    if( _tos )
+         clean();
+    //
+    //   copy the data members across
+    //
+    _cnt = item._cnt;
+    _newErr = item._newErr;
+    //
+    //   assign NULL to the top of stack pointer
+    //
+    _tos = NULL;
+    //
+    //   exit if the source is empty
+    //
+    if( !item._tos )
+         return *this;
+    //
+    //   allocate a new stack element
+    //
+    _tos = new StackNode;
+    //
+    //   exit if error in allocation
+    //
+    if( !_tos )
+    {
+         _newErr = true;
+         return *this;
+    }
+    //
+    //   initialize pointers to copy all of stack
+    //
+    _tos->next = NULL;
+    _tos->nodeData = item._tos->nodeData;
+    nextNode = item._tos->next;
+    current = _tos;
+    //
+    //   duplicate the source stack elements
+    //
+    while( nextNode )
+    {
+         //
+         //   create a new stack
+         //
+         temp = new StackNode;
+         if( !temp )
+         {
+              _newErr = true;
+              return *this;
+         }
+         //
+         //   copy data
+         //
+         temp->nodeData = nextNode->nodeData;
+         temp->next = NULL;
+         current->next = temp;
+         current = current->next;
+         nextNode = nextNode->next;
+    }
+    return *this;
+}
+
+template<class T>
+void CStack<T>::clean()
+{
+T temp;
+    //
+    //   pop everything from the stack
+    //
+    while( pop(temp) );
+
+}
+
+template<class T>
+void CStack<T>::push( T item )
+{
+StackNode *temp;
+
+    _newErr = false;
+    //
+    //   first node on the stack?
+    //
+    if( _tos )     // no
+    {
+         //
+         //   get a new stack node
+         //
+         temp = new StackNode;
+         if( !temp )
+         {
+              _newErr = true;
+              return;
+         }
+         temp->nodeData = item;
+         temp->next = _tos;
+         _tos = temp;
+    }
+    else // yes
+    {
+         _tos = new StackNode;
+         if( _tos == NULL )
+         {
+              _newErr = true;
+              return;
+         }
+         _tos->nodeData = item;
+         _tos->next = NULL;
+    }
+    ++_cnt;
+}
+
+template<class T>
+bool CStack<T>::pop( T& item )
+{
+StackNode *temp;
+    //
+    //   anything in the stack?
+    //
+    if( _cnt )
+    {
+         //
+         //   save the data being popped into the reference
+         //   data item 
+         //
+         item = _tos->nodeData;
+         //
+         //   save the current top of stack address
+         //
+         temp = _tos;
+         //
+         //   move top of stack to the next node on the list
+         //
+         _tos = _tos->next;
+         //
+         //   delete the old top of stack
+         //
+         delete temp;
+         //
+         //   decrement the count of nodes
+         //
+         --_cnt;
+         return true;
+    }
+    else
+         return false;
+}
+</PRE>
+<P>Notice that in the above example that both the interface and the implementation appear in the header file.  There is no separate <B>.cpp</B> file that holds the implementation.  Most compilers require that both the interface code and the implementation be in one file for templates.
+<H4>
+Listing 11-2
+</H4>
+<PRE>
+//  ************************************************************
+//  Source File    :    tstack.cpp
+//  Description    :    Test program to exercise the parametric
+//                 :    class CStack.
+//  ************************************************************
+
+#include <iostream.h>
+#include "cstack.h"
+#include "cstring.h"
+
+int main()
+{
+CStack<int> myData;
+int values[5];
+int ch;
+
+    cout << "Enter 5 integers: ";
+    cin >> values[0] >> values[1] >> values[2]
+        >> values[3] >> values[4];
+
+    for( int i = 0; i < 5; ++i )
+         myData.push( values[i] );
+
+
+    for( i = 0; i < 5; ++i )
+    {
+         myData.pop( values[i] );
+         cout << "Value at[ " << i << " ]= " 
+              << values[i] << endl;
+    }
+    cout << "End of integer Stack Demo";
+
+CString list[5];
+char buf[80];
+CStack<CString> names;
+
+    for( i = 0; i < 5; ++i )
+    {
+         cout << "\nEnter a name: ";
+         cin >> buf;
+         list[i] = buf;
+         names.push( list[i] );
+    }
+
+    for( i = 0; i < 5; ++i )
+    {
+         names.pop( list[i] );
+         cout << "Value at[ " << i << " ]= "
+              << (const char *)list[i] << endl;
+    }
+    cout << "End of CString Stack Demo - Press RETURN: ";
+    cin >> ch;
+    return 0;
+}
+</PRE>
+As with function templates, an explicit template class definition may be provided to override the automatic definition for a given type:
+<PRE>
+    class CStack<char *> {...};
+</PRE>
+The symbol <B>CStack</B> must always be accompanied by a data type in angle brackets.  It cannot appear alone, except in some cases in the original template definition. 
+<H3>
+11.7 Exceptions
+</H3>
+<P>Another method available for handling out of memory conditions and other exceptions appears only in the latest versions of C++.  As of this writing only the Borland C++ version 4.xx compiler and the GNU C++ version 2.7.0 compiler implements the specifications of the ANSI/ISO C++ committee on exception handling.  
+
+Exception handling involves three keywords in C++, <B>throw</B>, <B>try</B> , and <B>catch</B>.  Throwing an exception lets you gather information at the throw point that could be used in troubleshooting the causes that led to the program failure.  The <B>throw</B> keyword is analogous to using <B>raise()</B> with <B>signal()</B>.  A C++ program can directly raise an exception in a <B>try</B> block by using the <B>throw</B> expression.  The trying of code that may result in an exception is protected by having a <B>catch</B> routine.  The catching of an exception allows the program to take actions that could led to a graceful program termination.  Only synchronous exceptions are handled, meaning that the failure is generated from within the program, not from an external source, such an pressing CTRL-C or CTRL-BREAK. If asynchronous exceptions are to be handled then the <B>signal()</B> function must still be used along with, possibly, the <B>raise()</B> function.
+<H4>
+Fig. 11-7
+</H4>
+<PRE>
+Array::Array( int elements )
+{
+    if( elements < 1 )
+         throw ( elements );
+    pArray = new int[elements];
+    if( pArray == (int *)NULL )
+         throw( "NO SPACE on the FREE store" );
+}
+
+void foo()
+{
+    try
+    {
+         Array first( 10000 ), b( -5 );
+         ....
+    }
+    catch( int x )
+    {
+         ...  // code to handle incorrect number of elements 
+         ...  // in an Array type
+    }
+    catch( char *errMsg )
+    {
+         ...  // code to handle no more free store
+    }
+}
+</PRE>
+<P>The try-block specified by <B>try</B> must be followed immediately by the handler specified by <B>catch</B>.  If an exception is thrown in the try-block, program control is transferred to the appropriate exception handler.  
+<H3>
+11.7.1 throw
+</H3>
+
+<P>The <B>throw</B> keyword comes in two syntactic forms:
+<PRE>
+(1) throw
+(2) throw expression
+</PRE>
+The second format, <B>throw expression</B>, will cause an exception to be raised.  The innermost try block in which an exception is raised is used to select the <B>catch</b. statement that processes the exception.  The first format, <B>throw</B>, causes the current exception to be rethrown.  It is used when a second handler is needed to complete processing of an exception.  
+
+With the second format, the expression thrown is a static, temporary item that persists until the <B>catch</B> handler is exited.  The <B>catch</B> handler may use this expression in its processing.
+<PRE>
+void sample()
+{
+int x;
+    ...
+    throw x;
+}
+
+main()
+{
+    try
+    {
+         sample();
+    }
+    catch( int value )
+    {
+         ...
+    }
+}
+</PRE>
+<P>The value thrown by <B>throw</B> in the <B>sample()</B> function persists until the handler with the signature <B>catch( int value )</B> exits.  The argument <B>value</B> is available for use within the catch routine as would any argument being passed to a function.
+
+
+<P>When a function called from another function throws an exception, the process stack is unwound until an exception handler is found.  This means that by exiting from the local function, any local automatic storage class variables will be destroyed.
+<PRE>
+void func2()
+{
+int local_2A, local_2B;
+    ...
+    throw local_2A;
+
+}
+
+void func1()
+{
+int local_1A;
+    ...
+    func2();
+}
+
+main()
+{
+    try
+    {
+         func1();  // func2() is exited with local_2A and 
+                   // local_2B destroyed
+    }
+    catch( int value )
+    {
+         ...
+         throw;    // exception is re-thrown, possibly due to 
+                   // some condition within this catch() function
+    }
+</PRE>
+<P>If the thrown expression was of integer type, the rethrown exception is of the same integer value and will be handled by the nearest handler suitable for that type, but not by the handler that re-threw the exception.  
+
+<P>Although C++ allows an exception to be of almost any type, it is useful to make exception classes.  The exception object is treated exactly the way any object would be treated.  An exception carries information from the point where the exception is caught.  
+<H4>
+Fig. 11-8
+</H4>
+<PRE>
+enum ErrorType { BOUNDS, HEAP, OTHER };
+
+class CArrayError
+{
+public:
+    CArrayError( ErrorType, int, int );   // for out of BOUNDS
+    CArrayError( ErrorType, int );     // for out of HEAP
+    CArrayError( ErrorType );          // for OTHER 
+    ...
+
+private:
+    ErrorType _errType;
+    int       _upperBound
+              , _index
+              , _size
+              ;
+};
+</PRE>
+<P>Now a <B>throw expression</B> using an object of type <B>CArrayError</B> can be more informative to a handler than just throwing simple expressions.
+<PRE>
+...
+throw CArrayError( BOUNDS, i, _upperBound );
+...
+</PRE>
+<H3>
+11.7.2 try
+</H3>
+
+<P>The <B>try</B> keyword has the form
+<PRE>
+try
+    compound statement
+handler list
+</PRE>
+<P>The <B>try</B> block is where the decision is made as to what handler is called to handle a raised exception.  The order in which handlers are defined determines the order in which the handlers with matching argument lists are tried.
+
+A <B>throw expression</B> matches the <B>catch</B> argument if it is 
+<OL>
+<LI>An exact match.
+<LI>A public base class of a derived type which is what is thrown.
+<LI>A thrown object type that is a pointer type convertible to a pointer type that is the catch argument.
+</OL>
+<P>It is unwise to list handlers in an order that prevents them from being called.  For example:
+<PRE>
+catch( void * );   // would also catch any "char *" arguments
+catch( char * );
+catch( BaseClass& );    // would also catch any "DerivedClass&" calls
+catch( DerivedClass& );
+</PRE>
+<B>try</B> blocks can be nested.  If no matching handler is available in the immediate <B>try</B> block, a handler is selected from its immediately surrounding <B>try</B> block.  If no handler can be found that matches, then a default behavior is used.
+<H3>
+11.7.3 catch
+</H3>
+
+<P>The <B>catch</B> keyword has the following form
+<PRE>
+    catch( formal argument )
+    compound statement
+</PRE>
+The <B>catch</B> appears to be a function declaration of one argument without a return type.  <B>catch</B> routines do not accept more than one argument, because that would imply that more than one exception was being handled at once.  The <B>catch</B> routine may have an argument list of ellipses, ..., which matches any argument.  In addition, the formal argument can be an abstract declaration, which means it can have a type without a variable name.
+
+The <B>catch</B> handler is called by an appropriate <B>throw expression</B>.  At that point the <B>try</B> block, which was in effect when the exception was thrown, is exited.  Upon exit from the <B>try</B> block, the destructors for any objects that are local to the <B>try</B> block are invoked.  
+<H3>
+11.7.4 Exception Specifications
+</H3>
+<P>An exception specification can be part of the syntax of a function declaration 
+<PRE>
+    function_header throw( type list )
+</PRE>
+<P>The type list is the list of types that a <B>throw expression</B> within the function can have.  If no type list is specified, the compiler can assume that no <B>throw</B> will be executed by the function.
+<PRE>
+    void func1() throw( int, CArrayError );
+    void func2( int x ) throw();
+</PRE>
+If an exception specification is left off, then the assumption is that an arbitrary exception can be thrown by the function.  It is recommended that those exceptions that will be handled in a function be specified with the function declaration.  Violations of the specifications are a run-time error.
+<H3>
+11.7.5 terminate() and unexpected()
+</H3>
+<P>When no other handler has been specified to deal with an exception, the system provides the <B>terminate()</B> handler as a default.  Within the <B>terminate()</B> handler, the <B>abort()</B> function is called.  The programmer can use the <B>set_terminate()</B. function to change the function called, supplanting <B>abort()</B>, by the default termination handler. 
+
+<P>When a function throws an exception that was not in its exception specification list, the system provides the handler <B>unexpected()</B> which will be called.  By default the <B>abort()</B> function is called by the <B>unexpected()</B> handler.  The programmer can use the <B>set_unexpected()</B> function to change the function called by the handler.
+
+<P>The predefined exceptions in the C++ language are as follows:
+<PRE>
+Exception          Type                Header file
+----------------------------------------------------------------
+Bad_cast           class               typeinfo.h
+
+Bad_typeid         class               typeinfo.h
+
+set_new_handler    function            new.h
+
+set_terminate      function            except.h
+
+set_unexpected     function            except.h
+
+terminate          function            except.h
+
+Type_info          class               typeinfo.h
+
+unexpected         function            except.h
+
+xalloc             class               except.h
+
+xmsg               class               except.h
+</PRE>
+In the following example, an allocation failure will result in the predefined exception <B>xalloc</B> being thrown.  Your program should always be prepared to <B>catch</B> the <B>xalloc</B> exception before trying to access the new object.  To handle the catching of an exception you must implement a <B>try {}</B> and <B>catch {}</B> pair of 
+operations.  
+<H4>
+Listing 11-3
+</H4>
+<PRE>
+//
+//  LINES.CPP - dynamically allocate space from the free store
+//  using try and catch for exceptions.  This will only work 
+//  with the most recent BorlandC++ v4.xx or Microsoft Visual C++
+//  v2.x or Microsoft Visual C++ v4.0 compilers.
+//                                    
+#include &lt;iostream.h&gt;
+#include &lt;except.h&gt;
+
+int main()
+{
+char **buf;
+int height, width, i;
+
+    //
+    //   acquire parameters concerning data to be input
+    //
+    cout << "Enter number of lines: ";
+    cin >> height;
+    cout << "Enter width of lines: " ;
+    cin >> width;
+    //
+    //   allocate array of buffers for text
+    //
+    try       // test for exceptions
+    {
+         buf = new char *[height];
+         for( i = 0; i < height; ++i )
+              buf[i] = new char[width];
+    }
+    catch( xalloc )      // enter this only if xalloc is
+                        // thrown
+    {
+         cout << "ERROR: Could not allocate space."
+              << endl;
+         return 1;
+    }
+    //
+    //   get text from keyboard and save in array
+    //
+    for( i = 0; i < height; ++i )
+    {
+         cout << "Enter text: ";
+         cin >> buf[i];
+    }
+    //
+    //   move down on the screen
+    //
+    cout << "\n\n\n\n\n";
+    //
+    //   place text on the screen
+    //
+    for( i = 0; i < height; ++i )
+         cout <<  buf[i] << endl;
+    //
+    //   return space to free store
+    //
+    for( i = 0; i < height; ++i )
+         delete buf[i];
+    delete buf;
+    return 0;
+}
+</PRE>
+
