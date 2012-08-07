@@ -1,0 +1,56 @@
+<public:component>
+<public:attach event="onpropertychange" onevent="propertyChanged()" />
+<script>
+
+var supported = /MSIE (5\.5)|[6789]/.test(navigator.userAgent) && navigator.platform == "Win32";
+var realSrc;
+var transSrc = "trans.gif";
+
+if (supported) fixImage();
+
+function propertyChanged() 
+{
+   if (!supported) return;
+
+   var pName = event.propertyName;
+   if (pName != "src") return;
+   // if not set to transparent
+   if ( ! new RegExp(transSrc).test(src))
+      fixImage();
+};
+
+function fixImage() 
+{
+   // get src
+   var src = element.src;
+
+   // check for real change
+   if (src == realSrc) 
+   {
+      element.src = transSrc;
+      return;
+   }
+
+   if ( ! new RegExp(transSrc).test(src)) 
+   {
+      // backup old src
+      realSrc = src;
+   }
+
+   // test for png
+   if ( /\.png$/.test( realSrc.toLowerCase() ) ) 
+   {
+      // set transparent image
+      element.src = transSrc;
+      // set filter
+      element.runtimeStyle.filter = "progid:DXImageTransform.Microsoft.AlphaImageLoader(src='" + src + "',sizingMethod='scale')";
+   }
+   else 
+   {
+      // remove filter
+      element.runtimeStyle.filter = "";
+   }
+}
+
+</script>
+</public:component>
