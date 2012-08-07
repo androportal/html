@@ -1,6 +1,0 @@
-n=64;
-r=linspace(0,1,n)';
-g=linspace(1,0,n)';
-b=ones(r);
-cmap=[r g b];
-plot3d1();
