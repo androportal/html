@@ -4,23 +4,20 @@ var hostname=window.location.host;
 var demoCode = new Array();
 var filename1="";
 var flag_save1=0;
-demoCode[0]="";
-demoCode[1]="print 'Hello from Python!'"
-demoCode[2]="for each in range(1,10):\n    print 'The number is', each"
-//demoCode[3]="def iterquad ():\n for i in range(5):\n  yield (i*i)\n\nfor j in iterquad():\n print j\n"
-demoCode[3]="import math \nprint 'The value of PI is approximately %5.3f.' % math.pi"
 
 function clearForm(){
 	myCodeMirror.setValue("");        
         request=null;
         queryString=""; 
 }
+
+
 function executeCode(){
 	
 	flag_save1=0;
 	document.getElementById('execute').src="execute.gif";
    	 setQueryString();
-   	 var url="http://"+hostname+"/cgi-bin/python.cgi";
+   	 var url="http://"+hostname+"/cgi-bin/python.py";
    	 httpRequest("POST",url,true);
 	
 }
@@ -143,7 +140,7 @@ function savecode(){
 	filename1=prompt("Enter the name of the code file to be saved: ","new_file");	
 	flag_save1=1;
 	setQueryString();
-        var url="http://"+hostname+"/cgi-bin/python.cgi";
+        var url="http://"+hostname+"/cgi-bin/python.py";
         httpRequest("POST",url,true);
 	alert("File saved to SdCard/APL/python/code"+filename1);
 }

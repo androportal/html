@@ -15,7 +15,7 @@ function executeCode(){
 	flag_save1=0;
 	document.getElementById('execute').src="execute.gif";
    	 setQueryString();
-   	 var url="http://"+hostname+"/cgi-bin/c.cgi";
+   	 var url="http://"+hostname+"/cgi-bin/c.py";
    	 httpRequest("POST",url,true);
 	
 }
@@ -147,7 +147,7 @@ function savecode(){
         filename1=prompt("Enter the name of the code file to be saved: ","new_file");	
 	flag_save1=1;
 	setQueryString();
-        var url="http://"+hostname+"/cgi-bin/c.cgi";
+        var url="http://"+hostname+"/cgi-bin/c.py";
         httpRequest("POST",url,true);
 	alert("File saved to SdCard/APL/c/code"+filename1);
 }
