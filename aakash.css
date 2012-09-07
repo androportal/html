@@ -31,14 +31,14 @@ select
 #execute_button
 {
 	position:fixed;
-	top:255px;
+	top:192px;
 	left:2px;
 	z-index:5;
 }
 #execute
 {
 	
-	top:255px;
+	top:192px;
 	left:2px;
 	-webkit-tap-highlight-color:rgba(0,0,0,0);
 }
